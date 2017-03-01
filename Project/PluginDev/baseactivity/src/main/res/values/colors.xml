@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="transparent">#00000000</color>
+    <color name="dark_gray">#a19992</color>
+    <color name="gray">#e7e7e7</color>
+    <color name="black">#000000</color>
+    <color name="white">@android:color/white</color>
+    <color name="main_color">#000000</color>
+    <color name="blue">#0189ff</color>
+    <color name="item_line">#1a000000</color>
+
+    <color name="colorPrimary">@color/blue</color>
+    <color name="colorPrimaryDark">#0070cc</color>
+
+    <color name="setting_bg">#00000000</color>
+
+    <color name="gold">#FFD700</color>
+
+    <color name="dark_black">#DF000000</color>
+
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+
+    <item name="layout_container_main" type="id" />
+    <item name="no_result_title" type="id" />
+    <item name="no_result_des" type="id" />
+    <item name="no_result" type="id" />
+    <item name="list" type="id" />
+
+</resources>
