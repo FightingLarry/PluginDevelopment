@@ -1,1 +1,1 @@
-include ':DHPlugin-sample', ':DHPlugin', ':dhpluginlite', 'dhpluginlite-sample', 'baseactivity'
+include ':DHPlugin-sample', ':DHPlugin', ':dhpluginlite', 'dhpluginlite-sample', 'larry-light'

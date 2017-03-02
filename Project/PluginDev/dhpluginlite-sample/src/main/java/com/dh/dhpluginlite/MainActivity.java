@@ -1,13 +1,16 @@
 package com.dh.dhpluginlite;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import com.larry.light.LightFragmentActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends LightFragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void initializeStartingFragment() {
+        try {
+            loadFragment(new MainFragment(), null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 }
