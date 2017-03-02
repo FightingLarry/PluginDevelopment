@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.larry.lite">
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+
+        <service
+            android:name="com.larry.lite.LitePluginService"
+            android:exported="true"
+            android:process=":plugin">
+            <intent-filter>
+                <action android:name="com.larry.pluginlite.LitePluginService" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>
