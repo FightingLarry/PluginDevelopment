@@ -1,4 +1,4 @@
-package com.larry.lite;
+package com.larry.lite.host;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

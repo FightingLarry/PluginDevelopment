@@ -1,7 +1,7 @@
-package com.larry.lite;
+package com.larry.lite.host;
 
 /**
- * Created by yancai.liu on 2017/3/2.
+ * Created by Larry on 2017/3/2.
  */
 
 public class MainInfo {

@@ -1,4 +1,4 @@
-package com.larry.lite;
+package com.larry.lite.host;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.larry.light.LightAdapter;
 
 /**
- * Created by yancai.liu on 2017/3/2.
+ * Created by Larry on 2017/3/2.
  */
 
 public class MainAdapter extends LightAdapter<MainInfo> {
@@ -25,7 +25,7 @@ public class MainAdapter extends LightAdapter<MainInfo> {
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.layout_main_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(com.larry.lite.R.layout.layout_main_item, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -52,7 +52,7 @@ public class MainAdapter extends LightAdapter<MainInfo> {
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            mTextView = (TextView) itemView.findViewById(R.id.tvInfo);
+            mTextView = (TextView) itemView.findViewById(com.larry.lite.R.id.tvInfo);
             mRootView = itemView;
         }
     }

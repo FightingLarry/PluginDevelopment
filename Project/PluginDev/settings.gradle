@@ -1,1 +1,1 @@
-include ':DHPlugin-sample', ':DHPlugin', ':lite-library', ':lite-plugin', 'lite-sample', 'larry-light'
+include ':DHPlugin-sample', ':DHPlugin', ':lite-library', ':lite-plugin', 'lite-host', 'larry-light'
