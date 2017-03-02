@@ -22,7 +22,3 @@ libs/android-support-v4.jar.properties
 /captures/
 /bug/
 /proguard/
-/QuickSearchLib/build/*
-/xrecyclerview/build/*
-*.log
-*.apk
