@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.larry.light.IAdapterListener;
 import com.larry.light.LightRecycleViewFragment;
 
 import java.util.ArrayList;
@@ -13,14 +14,14 @@ import java.util.List;
  * Created by larry on 2017/3/2.
  */
 
-public class MainFragment extends LightRecycleViewFragment {
+public class MainFragment extends LightRecycleViewFragment implements IAdapterListener {
 
     private MainAdapter mMainAdapter;
 
     @Override
     protected MainAdapter getAdapter() {
         if (mMainAdapter == null) {
-            mMainAdapter = new MainAdapter(getActivity());
+            mMainAdapter = new MainAdapter(getActivity(), this);
         }
         return mMainAdapter;
     }
@@ -31,7 +32,7 @@ public class MainFragment extends LightRecycleViewFragment {
         super.onViewCreated(view, savedInstanceState);
 
         getRecyclerView().setLoadingMoreEnabled(false);
-        //getRecyclerView().setPullRefreshEnabled(false);
+        getRecyclerView().setPullRefreshEnabled(false);
 
     }
 
@@ -56,5 +57,13 @@ public class MainFragment extends LightRecycleViewFragment {
 
 
         getAdapter().addItem(plugins);
+    }
+
+    @Override
+    public void onItemClick(View view, Object o, int position) {
+        if (position == 0) {
+
+        }
+
     }
 }

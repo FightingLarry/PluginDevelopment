@@ -11,9 +11,9 @@ import android.content.Intent;
 public class LitePlugin {
 
     public static final void init(Context context) {
-
-        context.startService(new Intent("com.larry.pluginlite.LitePluginService"));
-
+        Intent intent = new Intent();
+        intent.setClass(context, LitePluginService.class);
+        context.startService(intent);
     }
 
 

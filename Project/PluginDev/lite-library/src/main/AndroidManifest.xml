@@ -9,11 +9,7 @@
         <service
             android:name="com.larry.lite.LitePluginService"
             android:exported="true"
-            android:process=":plugin">
-            <intent-filter>
-                <action android:name="com.larry.pluginlite.LitePluginService" />
-            </intent-filter>
-        </service>
+            android:process=":plugin"></service>
 
     </application>
 
