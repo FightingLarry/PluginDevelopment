@@ -1,10 +1,12 @@
-package com.larry.lite;
+package com.larry.lite.utils;
 
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+
+import com.larry.lite.LitePluginService;
 
 /**
  * Created by Larry on 2017/3/2.

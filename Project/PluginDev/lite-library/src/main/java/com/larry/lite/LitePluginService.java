@@ -3,12 +3,19 @@ package com.larry.lite;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.larry.lite.utils.GrayService;
+
 /**
  * Created by Larry on 2017/3/2.
  */
 
 public class LitePluginService extends GrayService {
 
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
