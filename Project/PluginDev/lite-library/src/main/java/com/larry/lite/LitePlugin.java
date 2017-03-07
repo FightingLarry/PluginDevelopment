@@ -16,5 +16,13 @@ public class LitePlugin {
         context.startService(intent);
     }
 
+    /**
+     * 默认
+     */
+    public static final void customCheckAssetPlugin(CheckAssetPlugin checkAssetPlugin) {
+
+
+    }
+
 
 }

@@ -11,7 +11,7 @@ import java.io.InputStream;
  * Created by Larry on 2017/3/6.
  */
 
-class CheckAssetPlugin implements ICheckPlugin {
+public class CheckAssetPlugin implements ICheckPlugin {
 
     private Context mContext;
 
@@ -21,9 +21,12 @@ class CheckAssetPlugin implements ICheckPlugin {
 
 
     @Override
-    public void check(String path) {
+    public void check() {
 
         try {
+
+            String path = getUrl();
+
             String fileList[] = mContext.getAssets().list(path);
             if (fileList.length > 0) {// 如果是目录
                 for (String fileName : fileList) {
@@ -39,7 +42,6 @@ class CheckAssetPlugin implements ICheckPlugin {
                     if (!toFileName.exists()) {
                         copyFile(mContext, from, to, fileName);
                     }
-
                 }
             }
         } catch (IOException e) {
@@ -49,6 +51,11 @@ class CheckAssetPlugin implements ICheckPlugin {
         } finally {
 
         }
+    }
+
+    @Override
+    public String getUrl() {
+        return "plugins";
     }
 
 
@@ -86,6 +93,5 @@ class CheckAssetPlugin implements ICheckPlugin {
                 }
             }
         }
-
     }
 }

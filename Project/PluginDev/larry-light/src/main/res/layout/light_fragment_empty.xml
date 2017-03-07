@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:drawablePadding="10dip"
-        android:textColor="@color/dark_gray"
+        android:textColor="@android:color/black"
         android:textSize="20sp" />
 
     <TextView
@@ -23,6 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:drawablePadding="10dip"
-        android:textColor="@color/dark_gray"
+        android:textColor="@android:color/black"
         android:textSize="14sp" />
 </LinearLayout>

@@ -50,7 +50,7 @@ public class ScheduleUtil {
         }
     }
 
-    private static void stopAlarmSchedule(Context context, String action, Bundle bundle, int requestCode) {
+    public static void stopAlarmSchedule(Context context, String action, Bundle bundle, int requestCode) {
         try {
             Intent intent = new Intent(context, LitePluginService.class);
             intent.setAction(action);
