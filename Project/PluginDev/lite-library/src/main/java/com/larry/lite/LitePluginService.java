@@ -36,7 +36,7 @@ public class LitePluginService extends GrayService {
         }
 
         if (ACTION_CHECK_PLUGIN.equals(intent.getAction())) {
-            TaskManager.runOnWorkerThread(new CheckPluginTask(getApplicationContext()));
+            TaskManager.runOnWorkerThread(new PluginTask(getApplicationContext()));
         }
 
 

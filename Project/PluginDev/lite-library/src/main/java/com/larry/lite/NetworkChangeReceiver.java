@@ -13,7 +13,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if (AndroidUtil.isNetConnect(context)) {
-            //TODO
+            // TODO
             LitePlugin.init(context);
         }
     }
