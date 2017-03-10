@@ -6,7 +6,6 @@ import android.util.Log;
 import com.larry.taskflows.Task;
 
 import java.io.File;
-import java.lang.reflect.Method;
 
 import dalvik.system.DexClassLoader;
 
@@ -44,17 +43,15 @@ public class PluginTask extends Task {
 
     @Override
     protected void onExecute() throws Exception {
-
-        new CheckAssetPlugin(mContext).check();
-        new CheckNetPlugin(mContext).check();
+        CheckPluginManager.getInstance().check();
 
         String dex = mPath + "/classes.dex";
+
         DexClassLoader dexClassLoader =
                 new DexClassLoader(dex, mOptimizedDirectory, null, this.getClass().getClassLoader());
         try {
 
             Class<?> cls = dexClassLoader.loadClass("com.larry.lite.plugin.MyPlugin");
-
             ILitePlugin iLitePlugin = (ILitePlugin) cls.newInstance();
             iLitePlugin.execute();
 

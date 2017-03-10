@@ -12,7 +12,6 @@ public class CheckNetPlugin implements ICheckPlugin {
 
     }
 
-
     @Override
     public void check() {
 

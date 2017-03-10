@@ -19,24 +19,20 @@ public class CheckAssetPlugin implements ICheckPlugin {
         this.mContext = context;
     }
 
-
     @Override
     public void check() {
 
         try {
-
             String path = getUrl();
-
             String fileList[] = mContext.getAssets().list(path);
             if (fileList.length > 0) {// 如果是目录
                 for (String fileName : fileList) {
                     String from = path + File.separator + fileName;
-                    String to = mContext.getFilesDir().getAbsolutePath() + File.separator + ".plugins";
+                    String to = PluginFileUtil.getDexPath(mContext);
                     File toFile = new File(to);
                     if (toFile != null && !toFile.exists() && !toFile.isDirectory()) {
                         toFile.mkdirs();
                     }
-
                     File toFileName = new File(toFile, fileName);
 
                     if (!toFileName.exists()) {
