@@ -54,6 +54,10 @@ public abstract class LightRecycleViewFragment extends LightFragment {
             }
         });
 
+        mRecyclerView.setLoadingMoreEnabled(false);
+        mRecyclerView.setPullRefreshEnabled(false);
+
+
         mNoResultLayout = inflater.inflate(R.layout.light_fragment_empty, null);
         mNoResultTitle = (TextView) mNoResultLayout.findViewById(R.id.no_result_title);
         mNoResultDes = (TextView) mNoResultLayout.findViewById(R.id.no_result_des);
@@ -98,8 +102,7 @@ public abstract class LightRecycleViewFragment extends LightFragment {
 
     }
 
-    protected void addFooterViews(LayoutInflater inflater) {
-    }
+    protected void addFooterViews(LayoutInflater inflater) {}
 
 
     protected void showNoResult() {
@@ -127,8 +130,7 @@ public abstract class LightRecycleViewFragment extends LightFragment {
         return "";
     }
 
-    protected void initViews(View v) {
-    }
+    protected void initViews(View v) {}
 
     protected void initAdapter() {
         if (mRecyclerView != null) {

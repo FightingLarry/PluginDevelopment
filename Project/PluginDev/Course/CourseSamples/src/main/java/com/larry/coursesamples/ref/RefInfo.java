@@ -1,10 +1,10 @@
-package com.larry.coursesamples;
+package com.larry.coursesamples.ref;
 
 /**
- * Created by Larry on 2017/4/2.
+ * Created by Larry on 2017/4/3.
  */
 
-public class MainInfo {
+public class RefInfo {
 
     private String context;
 

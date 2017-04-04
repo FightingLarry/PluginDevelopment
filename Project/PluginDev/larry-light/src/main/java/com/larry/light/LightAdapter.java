@@ -17,6 +17,10 @@ public abstract class LightAdapter<T> extends RecyclerView.Adapter<RecyclerView.
         mList = new ArrayList<>();
     }
 
+    public T getItem(int position) {
+        return mList.get(position);
+    }
+
     @Override
     public int getItemCount() {
         return mList.size();
