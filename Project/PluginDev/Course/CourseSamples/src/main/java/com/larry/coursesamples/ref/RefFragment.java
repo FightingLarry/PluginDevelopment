@@ -2,6 +2,7 @@ package com.larry.coursesamples.ref;
 
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class RefFragment extends LightRecycleViewFragment implements IAdapterListener<RefInfo> {
 
+    private static final String TAG = "RefFragment";
     private RefAdapter mRefAdapter;
 
     @Override
@@ -269,6 +271,11 @@ public class RefFragment extends LightRecycleViewFragment implements IAdapterLis
                 e.printStackTrace();
             }
         } else if (position == 10) {
+
+            Log.i(TAG, PhoneFactory.getInstance("Nexus").getClass().getSimpleName());
+            Log.i(TAG, PhoneFactory.getReflectInstance("com.larry.coursesamples.ref.Nexus").getClass().getSimpleName());
+
+        } else if (position == 11) {
 
             Window windon = getActivity().getWindow();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
