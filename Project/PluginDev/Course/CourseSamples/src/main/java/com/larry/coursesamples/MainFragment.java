@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.larry.coursesamples.classloader.BootClassLoaderFragment;
 import com.larry.coursesamples.classloader.DexClassLoaderFragment;
+import com.larry.coursesamples.proxy.ProxyFragment;
 import com.larry.coursesamples.ref.RefFragment;
 import com.larry.light.IAdapterListener;
 import com.larry.light.LightFragmentUtils;
@@ -103,6 +104,8 @@ public class MainFragment extends LightRecycleViewFragment implements IAdapterLi
             LightFragmentUtils.navigateToInNewActivity(getActivity(), DexClassLoaderFragment.class, null, view);
         } else if (position == 3) {
             LightFragmentUtils.navigateToInNewActivity(getActivity(), RefFragment.class, null, view);
+        } else if (position == 4) {
+            LightFragmentUtils.navigateToInNewActivity(getActivity(), ProxyFragment.class, null, view);
 
         }
     }

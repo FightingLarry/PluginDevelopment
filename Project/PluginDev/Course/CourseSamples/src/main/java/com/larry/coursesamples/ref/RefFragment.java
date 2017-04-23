@@ -73,8 +73,15 @@ public class RefFragment extends LightRecycleViewFragment implements IAdapterLis
                 e.printStackTrace();
             }
         } else if (position == 1) {
-            Nexus nexus = new Nexus();
-            System.out.println(nexus.getClass().getName());
+            try {
+
+                Class<?> nexus = Class.forName("com.larry.coursesamples.ref.Nexus");
+                System.out.println(nexus.getPackage() + "/" + nexus.getName());
+
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
         } else if (position == 2) {
 
             Class<?> class1 = null;
