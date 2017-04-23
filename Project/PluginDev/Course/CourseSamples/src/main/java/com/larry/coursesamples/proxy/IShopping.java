@@ -10,4 +10,6 @@ public interface IShopping {
 
     Object getShoppingInfo();
 
+    IShopping getProxy();
+
 }

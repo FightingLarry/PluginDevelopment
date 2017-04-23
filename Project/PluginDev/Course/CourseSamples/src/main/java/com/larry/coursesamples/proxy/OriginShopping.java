@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class OriginShopping implements IShopping {
 
-    public static final String TAG = "OriginShopping";
+    public static final String TAG = OriginShopping.class.getSimpleName();
 
     @Override
     public Object[] shopping(long money) {
@@ -20,6 +20,11 @@ public class OriginShopping implements IShopping {
 
     @Override
     public Object getShoppingInfo() {
+        return null;
+    }
+
+    @Override
+    public IShopping getProxy() {
         return null;
     }
 

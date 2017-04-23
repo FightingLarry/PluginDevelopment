@@ -1,6 +1,6 @@
 package com.larry.coursesamples.proxy;
 
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.larry.light.IAdapterListener;
@@ -15,9 +15,10 @@ import java.util.Arrays;
 
 public class ProxyFragment extends LightRecycleViewFragment implements IAdapterListener<String> {
 
+    private static final String TAG = "ProxyFragment";
     private ProxyAdapter mProxyAdapter;
 
-    private String[] itemArray = new String[] {"购物", "普通代理购物", "动态代理购物"};
+    private String[] itemArray = new String[] {"购物", "普通代理购物", "动态代理购物", "虚拟代理", "强制代理"};
 
     @Override
     protected void readCacheOrExcuteRequest() {
@@ -62,6 +63,33 @@ public class ProxyFragment extends LightRecycleViewFragment implements IAdapterL
                             .getInterfaces(), new ShoppingHandler(shopping));
             shopping.shopping(7820);
             shopping.getShoppingInfo();
+
+        } else if (itemArray[3].equals(s)) {
+
+            VirtualProxyShopping shopping = new VirtualProxyShopping();
+            shopping.shopping(7820);
+            shopping.getShoppingInfo();
+
+        } else if (itemArray[4].equals(s)) {
+
+            // 直接访问真实角色
+            Log.i(TAG, "=====直接访问真实角色========================");
+            IShopping shopping = new MandatoryShopping();
+            shopping.shopping(7820);
+            shopping.getShoppingInfo();
+
+            // 直接访问代理类
+            Log.i(TAG, "=====直接访问代理类========================");
+            IShopping proxyShopping = new MandatoryProxyShopping(shopping);
+            proxyShopping.shopping(7820);
+            proxyShopping.getShoppingInfo();
+
+            // 强制代理
+            Log.i(TAG, "=====强制代理========================");
+            IShopping mandatoryShopping = new MandatoryShopping();
+            IShopping proxy = mandatoryShopping.getProxy();
+            proxy.shopping(7820);
+            proxy.getShoppingInfo();
 
         }
 

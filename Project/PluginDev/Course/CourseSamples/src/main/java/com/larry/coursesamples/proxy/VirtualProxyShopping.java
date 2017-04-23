@@ -6,20 +6,29 @@ import android.util.Log;
  * Created by Larry on 2017/4/23.
  */
 
-public class ProxyShopping implements IShopping {
+public class VirtualProxyShopping implements IShopping {
 
-    private static final String TAG = "ProxyShopping";
+    private static final String TAG = "VirtualProxyShopping";
 
     double fee = 0.1;
 
     IShopping shopping;
 
-    ProxyShopping(IShopping shopping) {
-        this.shopping = shopping;
+    public VirtualProxyShopping() {
+
+        if (shopping == null) {
+            shopping = new OriginShopping();
+        }
+
     }
 
     @Override
     public Object[] shopping(long money) {
+
+        if (shopping == null) {
+            shopping = new OriginShopping();
+        }
+
 
         long realPay = (long) (money * (1 - fee));
 
@@ -32,7 +41,12 @@ public class ProxyShopping implements IShopping {
 
     @Override
     public Object getShoppingInfo() {
-        return null;
+
+        if (shopping == null) {
+            shopping = new OriginShopping();
+        }
+
+        return shopping.getShoppingInfo();
     }
 
     @Override
