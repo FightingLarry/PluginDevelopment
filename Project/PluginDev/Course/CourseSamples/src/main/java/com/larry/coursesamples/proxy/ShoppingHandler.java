@@ -42,7 +42,7 @@ public class ShoppingHandler implements InvocationHandler {
         }
 
         if ("getShoppingInfo".equals(method.getName())) {
-            Log.i(TAG, String.format("getShoppingInfo"));
+            Log.i(TAG, "ShoppingHandler:getShoppingInfo");
             return null;
         }
 

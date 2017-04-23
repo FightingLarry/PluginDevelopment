@@ -61,6 +61,7 @@ public class ProxyFragment extends LightRecycleViewFragment implements IAdapterL
                     (IShopping) Proxy.newProxyInstance(IShopping.class.getClassLoader(), shopping.getClass()
                             .getInterfaces(), new ShoppingHandler(shopping));
             shopping.shopping(7820);
+            shopping.getShoppingInfo();
 
         }
 
