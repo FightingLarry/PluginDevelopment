@@ -18,7 +18,7 @@ public class ProxyFragment extends LightRecycleViewFragment implements IAdapterL
     private static final String TAG = "ProxyFragment";
     private ProxyAdapter mProxyAdapter;
 
-    private String[] itemArray = new String[] {"购物", "普通代理购物", "动态代理购物", "虚拟代理", "强制代理"};
+    private String[] itemArray = new String[] {"购物", "普通代理购物", "虚拟代理", "强制代理", "动态代理购物"};
 
     @Override
     protected void readCacheOrExcuteRequest() {
@@ -55,22 +55,11 @@ public class ProxyFragment extends LightRecycleViewFragment implements IAdapterL
 
         } else if (itemArray[2].equals(s)) {
 
-            IShopping shopping = new OriginShopping();
-
-            // 招代理
-            shopping =
-                    (IShopping) Proxy.newProxyInstance(IShopping.class.getClassLoader(), shopping.getClass()
-                            .getInterfaces(), new ShoppingHandler(shopping));
-            shopping.shopping(7820);
-            shopping.getShoppingInfo();
-
-        } else if (itemArray[3].equals(s)) {
-
             VirtualProxyShopping shopping = new VirtualProxyShopping();
             shopping.shopping(7820);
             shopping.getShoppingInfo();
 
-        } else if (itemArray[4].equals(s)) {
+        } else if (itemArray[3].equals(s)) {
 
             // 直接访问真实角色
             Log.i(TAG, "=====直接访问真实角色========================");
@@ -90,6 +79,17 @@ public class ProxyFragment extends LightRecycleViewFragment implements IAdapterL
             IShopping proxy = mandatoryShopping.getProxy();
             proxy.shopping(7820);
             proxy.getShoppingInfo();
+
+        } else if (itemArray[4].equals(s)) {
+
+            IShopping shopping = new OriginShopping();
+
+            // 招代理
+            shopping =
+                    (IShopping) Proxy.newProxyInstance(IShopping.class.getClassLoader(), shopping.getClass()
+                            .getInterfaces(), new ShoppingHandler(shopping));
+            shopping.shopping(7820);
+            shopping.getShoppingInfo();
 
         }
 
