@@ -1,8 +1,5 @@
 package com.larry.lite.http;
 
-/**
- * Created by fanyang.sz on 2016/12/13.
- */
 
 public class HttpsResponse {
 

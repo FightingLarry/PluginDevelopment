@@ -3,24 +3,23 @@ package com.larry.lite;
 import java.io.IOException;
 
 /**
- * Created by larry on 2017/3/2.
+ * Created by larry on 2017/3/2. 轻量级插件的接口
  */
-
 public interface ILitePlugin {
     /**
-     * 插件生命周期方法，创建回调
+     * 初始化
      */
     void onCreated();
 
     /**
-     * 插件主业务逻辑方法，执行特定的数据收集工作
+     * 执行的主要方法，执行后台能做的事情。
      *
      * @throws IOException
      */
     int execute() throws IOException;
 
     /**
-     * 插件生命周期方法，销毁回调
+     * 结束
      */
     void onDestroy();
 

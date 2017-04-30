@@ -9,9 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Map;
 
-/**
- * Created by fanyang.sz on 2016/12/3.
- */
 
 public class HttpUtil {
 

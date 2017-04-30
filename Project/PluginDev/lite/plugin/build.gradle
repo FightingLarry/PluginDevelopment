@@ -23,7 +23,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':lite:library')
+    compile project(':lite:base')
 }
 
 
