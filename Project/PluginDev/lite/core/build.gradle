@@ -24,7 +24,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
+    compile project(':lite:base')
+
     provided "com.android.support:support-v4:$ANDROID_SUPPORT_VERSION"
 
-    compile project(':lite:base')
+    provided "com.squareup.okhttp3:okhttp:$OKHTTP3_VERSION"
 }
