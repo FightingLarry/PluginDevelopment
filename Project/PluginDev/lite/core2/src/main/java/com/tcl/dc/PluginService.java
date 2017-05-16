@@ -34,14 +34,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class PluginService extends Service {
-    private static final int HIDE_SERVICE_ID = 1001;
+public class PluginService extends GrayService {
     private static final int ALARM_INTERVAL = 300000;
     private static final int WAKE_REQUEST_CODE = 6666;
     private static final String LAST_VERSION_CODE = "dc_last_version_code";
+
     HandlerThread mIoThread;
     Handler mIoHandler;
-    Handler mUiHandler;
+    // Handler mUiHandler;
     private PluginEngine mEngine;
     AlarmManager mAlarmManager;
     PendingIntent mAlarmOperation;
@@ -60,7 +60,6 @@ public class PluginService extends Service {
                             PLog.w("plugin id 0 was invalid!", new Object[0]);
                             return;
                         }
-
                         msgx = PluginService.this.mIoHandler.obtainMessage(2, id, 0);
                         msgx.sendToTarget();
                     } else if (event.equals(TriggerEvent.KeyEventDebug)) {
@@ -112,7 +111,7 @@ public class PluginService extends Service {
 
     public void onCreate() {
         super.onCreate();
-        this.mUiHandler = new Handler(this.getMainLooper());
+        // this.mUiHandler = new Handler(this.getMainLooper());
         this.mIoThread = new HandlerThread("plugin-io");
         this.mIoThread.start();
         Looper looper = this.mIoThread.getLooper();
@@ -192,19 +191,19 @@ public class PluginService extends Service {
         }
     }
 
-    protected void runOnIoThread(Runnable action) {
-        if (this.mIoHandler != null) {
-            this.mIoHandler.post(action);
-        }
-
-    }
-
-    protected void runOnUiThread(Runnable action) {
-        if (this.mUiHandler != null) {
-            this.mUiHandler.post(action);
-        }
-
-    }
+    // protected void runOnIoThread(Runnable action) {
+    // if (this.mIoHandler != null) {
+    // this.mIoHandler.post(action);
+    // }
+    //
+    // }
+    //
+    // protected void runOnUiThread(Runnable action) {
+    // if (this.mUiHandler != null) {
+    // this.mUiHandler.post(action);
+    // }
+    //
+    // }
 
     protected void onPluginContextCreated(PluginContext context) {}
 
@@ -222,13 +221,6 @@ public class PluginService extends Service {
         boolean first = this.isFirst;
         if (this.isFirst) {
             this.isFirst = false;
-            if (VERSION.SDK_INT < 18) {
-                this.startForeground(1001, new Notification());
-            } else {
-                Intent innerIntent = new Intent(this, PluginService.InnerService.class);
-                this.startService(innerIntent);
-                this.startForeground(1001, new Notification());
-            }
         }
 
         TriggerEvent event = TriggerEvent.KeyEventStart;
@@ -238,20 +230,20 @@ public class PluginService extends Service {
             try {
                 PLog.i("action: %s", new Object[] {action});
                 event = TriggerEvent.valueOf(action);
-            } catch (Exception var8) {
+            } catch (Exception e) {
                 ;
             }
         }
 
         if (TriggerEvent.KeyEventStart.equals(event)) {
             int currentCode = AndroidUtil.getVersionCode(this);
-            int code = PrefsUtils.loadPrefInt(this, "dc_last_version_code", 0);
+            int code = PrefsUtils.loadPrefInt(this, LAST_VERSION_CODE, 0);
             if (code > 0 && currentCode > code) {
                 PLog.i("upgrade first start!", new Object[0]);
                 event = TriggerEvent.KeyEventUpgrade;
-                PrefsUtils.savePrefInt(this, "dc_last_version_code", currentCode);
+                PrefsUtils.savePrefInt(this, LAST_VERSION_CODE, currentCode);
             } else if (code == 0) {
-                PrefsUtils.savePrefInt(this, "dc_last_version_code", currentCode);
+                PrefsUtils.savePrefInt(this, LAST_VERSION_CODE, currentCode);
             }
         }
 
