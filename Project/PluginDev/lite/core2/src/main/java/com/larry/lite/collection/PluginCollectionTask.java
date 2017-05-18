@@ -2,7 +2,6 @@ package com.larry.lite.collection;
 
 import android.content.Context;
 
-import com.larry.lite.utils.PrefsUtils;
 import com.larry.taskflows.Task;
 
 /**

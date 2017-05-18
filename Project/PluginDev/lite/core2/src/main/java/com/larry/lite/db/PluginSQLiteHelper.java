@@ -21,7 +21,7 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "plugins";
 
     public PluginSQLiteHelper(Context context) {
-        super(context, "t_plugins", (CursorFactory) null, 1);
+        super(context, DB_NAME, (CursorFactory) null, DB_VERSION);
     }
 
     public void onCreate(SQLiteDatabase db) {
@@ -39,17 +39,17 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
 
     private PluginEntity fromCursor(Cursor cursor) {
         PluginEntity entity = new PluginEntity();
-        entity.id = cursor.getInt(1);
-        entity.name = cursor.getString(2);
-        entity.url = cursor.getString(3);
-        entity.path = cursor.getString(4);
-        entity.size = cursor.getLong(5);
-        entity.md5 = cursor.getString(6);
-        entity.desc = cursor.getString(7);
-        entity.lastLaunchTime = cursor.getLong(8);
-        entity.ready = cursor.getInt(9) != 0;
-        entity.state = cursor.getInt(10);
-        entity.downloaded = cursor.getLong(11);
+        entity.id = cursor.getInt(cursor.getColumnIndex("pid"));
+        entity.name = cursor.getString(cursor.getColumnIndex("name"));
+        entity.url = cursor.getString(cursor.getColumnIndex("url"));
+        entity.path = cursor.getString(cursor.getColumnIndex("path"));
+        entity.size = cursor.getLong(cursor.getColumnIndex("size"));
+        entity.md5 = cursor.getString(cursor.getColumnIndex("md5"));
+        entity.desc = cursor.getString(cursor.getColumnIndex("desc"));
+        entity.lastLaunchTime = cursor.getLong(cursor.getColumnIndex("lastLaunchTime"));
+        entity.ready = cursor.getInt(cursor.getColumnIndex("ready")) != 0;
+        entity.state = cursor.getInt(cursor.getColumnIndex("state"));
+        entity.downloaded = cursor.getLong(cursor.getColumnIndex("downloaded"));
         return entity;
     }
 
