@@ -1,6 +1,6 @@
 package com.larry.lite.host;
 
-import com.tcl.dc.PLog;
+import com.larry.lite.PLog;
 
 
 public class TbksLogger implements PLog.Logger {

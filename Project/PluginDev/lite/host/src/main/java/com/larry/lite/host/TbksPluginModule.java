@@ -5,10 +5,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
-import com.tcl.dc.PluginContext;
-import com.tcl.dc.PluginModule;
-import com.tcl.dc.PluginService;
-import com.tcl.dc.utils.AndroidUtil;
+import com.larry.lite.PluginContext;
+import com.larry.lite.PluginModule;
+import com.larry.lite.PluginService;
+import com.larry.lite.utils.AndroidUtil;
 
 /**
  * Created by yancai.liu on 2016/12/1.

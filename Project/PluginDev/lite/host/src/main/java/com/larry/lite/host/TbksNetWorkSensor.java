@@ -2,7 +2,7 @@ package com.larry.lite.host;
 
 import android.content.Context;
 
-import com.tcl.dc.network.NetworkSensor;
+import com.larry.lite.network.NetworkSensor;
 
 /**
  * Created by yancai.liu on 2016/12/1.

@@ -2,7 +2,7 @@ package com.larry.lite.host;
 
 import android.util.Log;
 
-import com.tcl.dc.network.PluginLogger;
+import com.larry.lite.network.PluginLogger;
 
 
 public class TbksUploader implements PluginLogger.Uploader {

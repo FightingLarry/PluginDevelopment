@@ -2,7 +2,7 @@ package com.larry.lite.host;
 
 import android.app.Application;
 
-import com.tcl.dc.LitePlugin;
+import com.larry.lite.LitePlugin;
 
 /**
  * Created by Larry on 2017/3/2.
