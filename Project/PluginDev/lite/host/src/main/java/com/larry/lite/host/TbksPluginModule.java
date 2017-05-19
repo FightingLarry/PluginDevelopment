@@ -34,6 +34,8 @@ public class TbksPluginModule implements PluginModule {
                 ? "http://tracker-test.tclclouds.com/tracker-api/plugins-info"
                 : "http://tracker-global.tclclouds.com/tracker-api/plugins-info";
 
+        context.setLocalDebug(BuildConfig.DEBUG);
+
         context.setPluginConfigUrl(url);
         String useragent = context.getApplicationContext().getPackageName() + AndroidUtil.getVersionName(service);
         context.setUserAgent(useragent);

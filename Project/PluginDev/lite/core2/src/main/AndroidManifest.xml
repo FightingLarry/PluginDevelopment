@@ -13,13 +13,12 @@
             android:name="com.larry.lite.PluginService"
             android:enabled="true"
             android:exported="false"
-            android:process=":core" />
-
+            android:process=":plugin" />
         <service
             android:name="com.larry.lite.GrayService$GrayInnerService"
             android:enabled="true"
             android:exported="false"
-            android:process=":core" />
+            android:process=":plugin" />
     </application>
 
 

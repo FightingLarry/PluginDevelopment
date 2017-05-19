@@ -344,7 +344,7 @@ public class PluginEngine implements PluginLifecycleCallback, Callback {
         }
 
         public void handleMessage(Message msg) {
-            if (msg.what == 1) {
+            if (msg.what == MSG_UPDATE_CONFIGURATION) {
                 PluginEngine.this.mPendingAction = (Runnable) msg.obj;
                 boolean ignore = msg.arg1 > 0;
                 int ret = PluginEngine.this.updateConfiguration(ignore);
@@ -359,7 +359,7 @@ public class PluginEngine implements PluginLifecycleCallback, Callback {
                     Message newmsg = Message.obtain(msg);
                     this.sendMessageDelayed(newmsg, (long) ('\uea60' << PluginEngine.this.mRetryTimesForFailed - 1));
                 }
-            } else if (msg.what == 2) {
+            } else if (msg.what == MSG_PERF_SNAPSHOT) {
                 this.removeMessages(2);
                 if (msg.arg1 == 1) {
                     PluginEngine.this.mStats.start();
@@ -377,7 +377,7 @@ public class PluginEngine implements PluginLifecycleCallback, Callback {
                 if (PluginEngine.this.mContinueStating) {
                     this.sendEmptyMessageDelayed(2, 200L);
                 }
-            } else if (msg.what == 3) {
+            } else if (msg.what == MSG_PREF_REPORT) {
                 PluginStub stub = (PluginStub) msg.obj;
                 PluginEngine.this.reportStats(stub);
             }

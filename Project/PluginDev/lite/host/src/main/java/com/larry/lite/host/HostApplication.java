@@ -13,6 +13,14 @@ public class HostApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        if (BuildConfig.DEBUG) {
+            NLog.setDebug(true, Logger.VERBOSE);
+            NLog.trace(Logger.TRACE_REALTIME, null);
+        } else {
+            NLog.setDebug(false, Logger.VERBOSE);
+        }
+
+
         LitePlugin.init(getApplicationContext());
     }
 }

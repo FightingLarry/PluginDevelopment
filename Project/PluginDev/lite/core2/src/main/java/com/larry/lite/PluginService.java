@@ -167,12 +167,14 @@ public class PluginService extends GrayService {
 
         this.mEngine = new PluginEngine(context);
         this.mEngine.setRunLoop(context.getIoLooper());
-        this.mAlarmManager = (AlarmManager) this.getSystemService("alarm");
+
+        this.mAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(this, PluginService.class);
         alarmIntent.setAction(TriggerEvent.Periodicity.toString());
-        PendingIntent operation = PendingIntent.getService(this, 6666, alarmIntent, 134217728);
+        PendingIntent operation = PendingIntent.getService(this, 6666, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         this.mAlarmOperation = operation;
-        this.mAlarmManager.setInexactRepeating(0, System.currentTimeMillis(), 900000L, operation);
+        this.mAlarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), 900000L, operation);
+
         this.isFirst = true;
         IntentFilter filter = new IntentFilter();
         filter.addAction(TriggerEvent.KeyEventImmediate.toString());
@@ -276,7 +278,7 @@ public class PluginService extends GrayService {
 
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 1:
+                case MSG_PERIODICITY:
                     PLog.i("PluginService alive Periodicity", new Object[0]);
                     if (msg.arg1 > 0) {
                         this.removeMessages(1);
@@ -296,11 +298,11 @@ public class PluginService extends GrayService {
                     PluginService.this.mEngine.pumpEvent(TriggerEvent.Periodicity, (Object) null);
                     this.sendEmptyMessageDelayed(1, 10000L);
                     break;
-                case 2:
+                case MSG_IMMEDIATE:
                     PLog.i("PluginService immediately start plugin %d", new Object[] {Integer.valueOf(msg.arg1)});
                     PluginService.this.mEngine.pumpEvent(TriggerEvent.KeyEventImmediate, Integer.valueOf(msg.arg1));
                     break;
-                case 3:
+                case MSG_DUMP:
                     PLog.i("PluginService dump hprof start...", new Object[0]);
                     PluginService.dumpHprof(PluginService.this.getApplicationContext());
                     PLog.i("PluginService dump hprof end.", new Object[0]);
