@@ -1,4 +1,4 @@
-package com.tcl.lite.base;
+package com.larry.lite.base;
 
 public class LaunchStrategy {
     public static final int PERIODICITY_PARAM_HOUR = 3600000;

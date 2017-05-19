@@ -1,5 +1,5 @@
 
-package com.tcl.lite.base;
+package com.larry.lite.base;
 
 public interface PluginError {
     int SUCCESS = 0;

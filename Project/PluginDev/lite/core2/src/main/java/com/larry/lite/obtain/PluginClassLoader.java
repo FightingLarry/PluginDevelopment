@@ -1,5 +1,5 @@
 
-package com.larry.lite.collection;
+package com.larry.lite.obtain;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -11,9 +11,9 @@ import com.larry.lite.PluginStub;
 import com.larry.lite.network.PluginLogger;
 import com.larry.lite.utils.FileUtils;
 import com.larry.lite.utils.GZipUtils;
-import com.tcl.lite.base.LitePlugin;
-import com.tcl.lite.base.LaunchMode;
-import com.tcl.lite.base.PluginError;
+import com.larry.lite.base.LitePlugin;
+import com.larry.lite.base.LaunchMode;
+import com.larry.lite.base.PluginError;
 import com.larry.lite.utils.StringUtils;
 import dalvik.system.DexClassLoader;
 import java.io.File;

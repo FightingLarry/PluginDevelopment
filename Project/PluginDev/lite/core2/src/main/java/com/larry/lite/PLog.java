@@ -7,7 +7,7 @@ public class PLog {
     private static final String TAG = "AppPlugins";
     private static final PLog.Logger DEFAULT = new PLog.Logger() {
         public boolean isDebug() {
-            return false;
+            return true;
         }
 
         public void v(String tag, String format, Object... args) {}

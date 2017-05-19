@@ -1,4 +1,4 @@
-package com.larry.lite.collection;
+package com.larry.lite.obtain;
 
 import android.content.Context;
 
@@ -8,11 +8,11 @@ import com.larry.taskflows.Task;
  * Created by Larry on 2017/5/17.
  */
 
-public class PluginCollectionTask extends Task {
+public class ObtainPluginTask extends Task {
 
 
 
-    public PluginCollectionTask(Context context) {
+    public ObtainPluginTask(Context context) {
         super(context);
 
     }

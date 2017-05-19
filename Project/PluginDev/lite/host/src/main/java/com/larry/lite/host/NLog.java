@@ -10,7 +10,7 @@ import java.io.File;
 
 public final class NLog {
     private static final String LOG_FILENAME = "tcl_logcat.log";
-    private static boolean debug = BuildConfig.DEBUG;
+    private static boolean debug = true;
     private static Logger logger = null;
 
     public NLog() {}

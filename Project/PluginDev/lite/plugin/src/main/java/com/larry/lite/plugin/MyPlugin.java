@@ -2,7 +2,9 @@ package com.larry.lite.plugin;
 
 import android.util.Log;
 
-import com.larry.lite.ILitePlugin;
+import com.larry.lite.base.ConnectionFactory;
+import com.larry.lite.base.LitePlugin;
+import com.larry.lite.base.PluginPeer;
 
 import java.io.IOException;
 
@@ -10,17 +12,17 @@ import java.io.IOException;
 /**
  * Created by Larry on 2017/3/2.
  */
-public class MyPlugin implements ILitePlugin {
+public class MyPlugin implements LitePlugin {
 
     private static final String TAG = "MyPlugin";
 
     @Override
-    public void onCreated() {
-        Log.d(TAG, "onCreated");
+    public void onCreate(PluginPeer pluginPeer) {
+
     }
 
     @Override
-    public int execute() throws IOException {
+    public int execute(PluginPeer pluginPeer, ConnectionFactory connectionFactory) throws IOException {
 
         Log.d(TAG, "execute");
 
@@ -28,7 +30,7 @@ public class MyPlugin implements ILitePlugin {
     }
 
     @Override
-    public void onDestroy() {
-        Log.d(TAG, "onDestroy");
+    public void onDestroy(PluginPeer pluginPeer) {
+        Log.d(TAG, "onCreate");
     }
 }

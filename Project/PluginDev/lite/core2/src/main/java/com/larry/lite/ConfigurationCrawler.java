@@ -14,11 +14,11 @@ public interface ConfigurationCrawler {
     int NOT_EXPIRED = 2;
     int CONTINUE = 3;
 
-    int crawlConfiguration(ConfigurationCrawler.Callback var1);
+    int crawlConfiguration(ConfigurationCrawler.Callback callback);
 
     void cancel();
 
     public interface Callback {
-        void onConfigurationResult(int success, List<PluginStub> var2, long var3);
+        void onConfigurationResult(int success, List<PluginStub> plugins, long var3);
     }
 }

@@ -9,8 +9,8 @@ import com.larry.lite.PluginManager;
 import com.larry.lite.PluginRuntime;
 import com.larry.lite.PluginStub;
 import com.larry.lite.PluginManager.PluginReadyCallback;
-import com.tcl.lite.base.LitePlugin;
-import com.tcl.lite.base.PluginPeer;
+import com.larry.lite.base.LitePlugin;
+import com.larry.lite.base.PluginPeer;
 
 public class RuntimeIo implements Runnable {
     private final PluginContext mContext;
@@ -111,7 +111,7 @@ public class RuntimeIo implements Runnable {
                             if (!this.mStopped) {
                                 state = this.mTask.setState(3);
                                 this.onPluginCreated(stub);
-                                entity.onCreated(this.mPeer);
+                                entity.onCreate(this.mPeer);
                                 if (!this.mStopped) {
                                     this.onPluginStart(stub);
                                     state = this.mTask.setState(4);

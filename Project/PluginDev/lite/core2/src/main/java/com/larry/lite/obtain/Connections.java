@@ -1,9 +1,9 @@
-package com.larry.lite.collection;
+package com.larry.lite.obtain;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
-import com.tcl.lite.base.ConnectionFactory;
-import com.tcl.lite.base.LitePlugin;
+import com.larry.lite.base.ConnectionFactory;
+import com.larry.lite.base.LitePlugin;
 import com.larry.lite.utils.Singleton;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;

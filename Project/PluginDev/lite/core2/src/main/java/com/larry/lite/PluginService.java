@@ -18,12 +18,12 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.larry.lite.collection.Connections;
+import com.larry.lite.obtain.Connections;
 import com.larry.lite.network.NetworkHelper;
 import com.larry.lite.utils.AndroidUtil;
 import com.larry.lite.PLog.Logger;
-import com.larry.lite.collection.SdCardPluginCollection;
-import com.larry.lite.collection.RemotePluginCollection;
+import com.larry.lite.obtain.ObtainSdCardPlugin;
+import com.larry.lite.obtain.ObtainRemotePlugin;
 import com.larry.lite.network.NetworkSensor;
 import com.larry.lite.utils.PrefsUtils;
 import java.io.File;
@@ -155,9 +155,9 @@ public class PluginService extends GrayService {
 
         this.onPluginContextCreated(context);
         if (context.isLocalDebug()) {
-            context.setConfigurationCrawler(new SdCardPluginCollection(context));
+            context.setConfigurationCrawler(new ObtainSdCardPlugin(context));
         } else {
-            context.setConfigurationCrawler(new RemotePluginCollection(context, context.getConnectionFactory()));
+            context.setConfigurationCrawler(new ObtainRemotePlugin(context, context.getConnectionFactory()));
         }
 
         Object crawler = this.mComponents.get("crawler");
@@ -250,7 +250,7 @@ public class PluginService extends GrayService {
     }
 
     public static void dumpHprof(Context context) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String date = sdf.format(new Date(System.currentTimeMillis()));
 
         try {
@@ -267,32 +267,6 @@ public class PluginService extends GrayService {
             PLog.d("fail to dump hprof %s", new Object[] {var6.getMessage()});
         }
 
-    }
-
-    public static class InnerService extends Service {
-        public InnerService() {}
-
-        public void onCreate() {
-            PLog.i("InnerService -> onCreate", new Object[0]);
-            super.onCreate();
-        }
-
-        public int onStartCommand(Intent intent, int flags, int startId) {
-            PLog.i("InnerService -> onStartCommand", new Object[0]);
-            this.startForeground(1001, new Notification());
-            this.stopForeground(true);
-            this.stopSelf();
-            return super.onStartCommand(intent, flags, startId);
-        }
-
-        public IBinder onBind(Intent intent) {
-            throw new UnsupportedOperationException("Not yet implemented");
-        }
-
-        public void onDestroy() {
-            PLog.i("InnerService -> onDestroy", new Object[0]);
-            super.onDestroy();
-        }
     }
 
     private class ServiceHandler extends Handler {

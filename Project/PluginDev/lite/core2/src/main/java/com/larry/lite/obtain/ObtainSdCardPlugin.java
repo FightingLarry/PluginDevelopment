@@ -1,5 +1,5 @@
 
-package com.larry.lite.collection;
+package com.larry.lite.obtain;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -23,18 +23,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class SdCardPluginCollection implements ConfigurationCrawler {
+public class ObtainSdCardPlugin implements ConfigurationCrawler {
     private static final String LOCAL_PLUGIN_DIR = ".plugins";
     public static final String PLUGIN_SUFFIX = ".tdp";
     private static final String CONFIG_MANIFEST_FILE = "plugins.json";
     private static final int LOCAL_PLUGIN_ID_BASE = 200000;
     final PluginContext mContext;
 
-    public SdCardPluginCollection(PluginContext context) {
+    public ObtainSdCardPlugin(PluginContext context) {
         this.mContext = context;
     }
 
-    private void checkResult(File dir, RemotePluginCollection.ConfigurationResult cr) throws Exception {
+    private void checkResult(File dir, ObtainRemotePlugin.ConfigurationResult cr) throws Exception {
         if (cr == null) {
             throw new NullPointerException("configuration result is null!");
         } else if (!CollectionUtils.isEmpty(cr.plugins)) {
@@ -106,8 +106,8 @@ public class SdCardPluginCollection implements ConfigurationCrawler {
                                 return -12;
                             } else {
                                 JSONObject jsonObject = new JSONObject(s);
-                                final RemotePluginCollection.ConfigurationResult cr =
-                                        RemotePluginCollection.parseResult(jsonObject);
+                                final ObtainRemotePlugin.ConfigurationResult cr =
+                                        ObtainRemotePlugin.parseResult(jsonObject);
                                 this.checkResult(dir, cr);
                                 TaskManager.runWorkerThread(new Runnable() {
                                     public void run() {

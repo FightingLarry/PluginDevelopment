@@ -1,7 +1,7 @@
 
 package com.larry.lite;
 
-import com.tcl.lite.base.LitePlugin;
+import com.larry.lite.base.LitePlugin;
 
 public interface PluginRuntime {
     void checkPluginsForLaunch(TriggerEvent var1, Object var2);

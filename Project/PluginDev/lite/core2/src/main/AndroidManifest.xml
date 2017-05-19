@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tcl.lite">
+    package="com.larry.lite">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,13 +10,13 @@
         android:supportsRtl="true">
 
         <service
-            android:name="com.tcl.lite.com.larry.lite.PluginService"
+            android:name="com.larry.lite.PluginService"
             android:enabled="true"
             android:exported="false"
             android:process=":core" />
 
         <service
-            android:name="com.tcl.lite.com.larry.lite.PluginService$InnerService"
+            android:name="com.larry.lite.GrayService$GrayInnerService"
             android:enabled="true"
             android:exported="false"
             android:process=":core" />

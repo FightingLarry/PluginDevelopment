@@ -1,5 +1,5 @@
 
-package com.larry.lite.collection;
+package com.larry.lite.obtain;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -25,10 +25,10 @@ import com.larry.lite.ConfigurationCrawler;
 import com.larry.lite.PLog;
 import com.larry.lite.PluginConfiguration;
 import com.larry.lite.PluginStub;
-import com.tcl.lite.base.ConnectionFactory;
-import com.tcl.lite.base.LaunchMode;
-import com.tcl.lite.base.LaunchStrategy;
-import com.tcl.lite.base.NetworkType;
+import com.larry.lite.base.ConnectionFactory;
+import com.larry.lite.base.LaunchMode;
+import com.larry.lite.base.LaunchStrategy;
+import com.larry.lite.base.NetworkType;
 import com.larry.lite.utils.TelephonyManagerUtil;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -42,12 +42,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RemotePluginCollection implements ConfigurationCrawler {
+public class ObtainRemotePlugin implements ConfigurationCrawler {
     final PluginContext mContext;
     final OkHttpClient mClient;
     Call mCall;
 
-    public RemotePluginCollection(PluginContext context, ConnectionFactory connectionFactory) {
+    public ObtainRemotePlugin(PluginContext context, ConnectionFactory connectionFactory) {
         this.mContext = context;
         this.mClient = connectionFactory.getOkHttpClient();
     }
@@ -62,8 +62,8 @@ public class RemotePluginCollection implements ConfigurationCrawler {
                 throw new RuntimeException("what!!! no plugin config url!!!");
             } else {
                 Call call = this.requestPlugins(url, this.createRequestBody());
-                call.enqueue(new RemotePluginCollection.ConfigurationCallBack(
-                        new RemotePluginCollection.WrapCallback(callback)));
+                call.enqueue(
+                        new ObtainRemotePlugin.ConfigurationCallBack(new ObtainRemotePlugin.WrapCallback(callback)));
                 this.mCall = call;
                 return 0;
             }
@@ -200,8 +200,8 @@ public class RemotePluginCollection implements ConfigurationCrawler {
         return modeExtra;
     }
 
-    static RemotePluginCollection.ConfigurationResult parseResult(JSONObject json) throws JSONException {
-        RemotePluginCollection.ConfigurationResult result = new RemotePluginCollection.ConfigurationResult();
+    static ObtainRemotePlugin.ConfigurationResult parseResult(JSONObject json) throws JSONException {
+        ObtainRemotePlugin.ConfigurationResult result = new ObtainRemotePlugin.ConfigurationResult();
         if (json.has("status") && json.has("msg")) {
             int status = json.getInt("status");
             String msg = json.optString("msg");
@@ -255,7 +255,7 @@ public class RemotePluginCollection implements ConfigurationCrawler {
         }
 
         public void onConfigurationResult(int err, List<PluginStub> plugins, long timestamp) {
-            RemotePluginCollection.this.mCall = null;
+            ObtainRemotePlugin.this.mCall = null;
             Callback call = (Callback) this.reference.get();
             if (call != null) {
                 call.onConfigurationResult(err, plugins, timestamp);
@@ -307,7 +307,7 @@ public class RemotePluginCollection implements ConfigurationCrawler {
 
         private void parse(String result) throws JSONException {
             JSONObject jsonObject = new JSONObject(result);
-            RemotePluginCollection.ConfigurationResult cr = RemotePluginCollection.parseResult(jsonObject);
+            ObtainRemotePlugin.ConfigurationResult cr = ObtainRemotePlugin.parseResult(jsonObject);
             if (cr.status == 0) {
                 this.onResultStatus(0, cr.plugins, cr.ts);
             } else if (cr.status == -1) {

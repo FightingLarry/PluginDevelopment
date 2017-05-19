@@ -1,7 +1,7 @@
 
 package com.larry.lite;
 
-import com.tcl.lite.base.LaunchStrategy;
+import com.larry.lite.base.LaunchStrategy;
 
 public class PluginStub {
     public int id;

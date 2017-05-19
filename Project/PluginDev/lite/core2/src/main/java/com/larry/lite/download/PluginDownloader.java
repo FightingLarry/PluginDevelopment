@@ -14,8 +14,8 @@ import com.squareup.okhttp.ResponseBody;
 import com.squareup.okhttp.Request.Builder;
 import com.larry.lite.PLog;
 import com.larry.lite.PluginException;
-import com.larry.lite.collection.SdCardPluginCollection;
-import com.larry.lite.collection.PluginClassLoader;
+import com.larry.lite.obtain.ObtainSdCardPlugin;
+import com.larry.lite.obtain.PluginClassLoader;
 import com.larry.lite.db.PluginEntity;
 import com.larry.lite.utils.FileUtils;
 import com.larry.lite.utils.Streams;
@@ -85,7 +85,7 @@ public class PluginDownloader implements URLParams.URLParamsCreator<PluginEntity
             }
         } else {
             String filename = String.format(Locale.ENGLISH, "%d_%s%s",
-                    new Object[] {Integer.valueOf(entity.id), entity.md5, SdCardPluginCollection.PLUGIN_SUFFIX});
+                    new Object[] {Integer.valueOf(entity.id), entity.md5, ObtainSdCardPlugin.PLUGIN_SUFFIX});
             params.target = FileUtils.getPluginsFile(this.mContext.getApplicationContext(), filename);
         }
 
