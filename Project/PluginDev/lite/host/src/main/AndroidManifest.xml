@@ -19,7 +19,7 @@
 
 
         <meta-data
-            android:name="com.larry.lite.host.TbksPluginModule"
+            android:name="com.larry.lite.host.HostModule"
             android:value="PluginModule" />
 
     </application>

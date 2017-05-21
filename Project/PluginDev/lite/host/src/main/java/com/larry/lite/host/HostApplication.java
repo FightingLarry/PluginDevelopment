@@ -14,10 +14,10 @@ public class HostApplication extends Application {
         super.onCreate();
 
         if (BuildConfig.DEBUG) {
-            NLog.setDebug(true, Logger.VERBOSE);
-            NLog.trace(Logger.TRACE_REALTIME, null);
+            HostLog.setDebug(true, HostLogger.VERBOSE);
+            HostLog.trace(HostLogger.TRACE_REALTIME, null);
         } else {
-            NLog.setDebug(false, Logger.VERBOSE);
+            HostLog.setDebug(false, HostLogger.VERBOSE);
         }
 
 

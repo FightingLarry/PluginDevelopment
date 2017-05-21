@@ -2,9 +2,9 @@ package com.larry.lite.plugin;
 
 import android.util.Log;
 
-import com.larry.lite.base.ConnectionFactory;
+import com.larry.lite.base.LiteConnectionFactory;
 import com.larry.lite.base.LitePlugin;
-import com.larry.lite.base.PluginPeer;
+import com.larry.lite.base.LitePluginPeer;
 
 import java.io.IOException;
 
@@ -17,12 +17,12 @@ public class MyPlugin implements LitePlugin {
     private static final String TAG = "MyPlugin";
 
     @Override
-    public void onCreate(PluginPeer pluginPeer) {
+    public void onCreate(LitePluginPeer litePluginPeer) {
 
     }
 
     @Override
-    public int execute(PluginPeer pluginPeer, ConnectionFactory connectionFactory) throws IOException {
+    public int execute(LitePluginPeer litePluginPeer, LiteConnectionFactory liteConnectionFactory) throws IOException {
 
         Log.d(TAG, "execute");
 
@@ -30,7 +30,7 @@ public class MyPlugin implements LitePlugin {
     }
 
     @Override
-    public void onDestroy(PluginPeer pluginPeer) {
+    public void onDestroy(LitePluginPeer litePluginPeer) {
         Log.d(TAG, "onCreate");
     }
 }

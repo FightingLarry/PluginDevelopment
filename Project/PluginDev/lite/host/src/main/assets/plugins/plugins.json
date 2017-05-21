@@ -1,0 +1,27 @@
+{
+  "plugins": [
+    {
+      "id": "200098",
+      "url": "",
+      "size": 1444,
+      "md5": "23035220f08d2c009def465bc994ed4d",
+      "launch": "Periodicity",
+      "launchParam": "1",
+      "limit": 0,
+      "network": "WIFI",
+      "path": "myplugin.tdp"
+    },
+    {
+      "id": "200099",
+      "url": "",
+      "size": 1444,
+      "md5": "23035220f08d2c009def465bc994ed4d",
+      "launch": "KeyEvent",
+      "launchParam": "start",
+      "limit": 0,
+      "network": "WIFI",
+      "path": "myplugin2.tdp"
+    }
+  ],
+  "ts": 1461034874609
+}
