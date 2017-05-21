@@ -15,12 +15,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class PluginSQLiteHelper extends SQLiteOpenHelper {
+public class LiteSQLiteHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "t_plugins";
     private static final String TABLE_NAME = "plugins";
 
-    public PluginSQLiteHelper(Context context) {
+    public LiteSQLiteHelper(Context context) {
         super(context, DB_NAME, (CursorFactory) null, DB_VERSION);
     }
 
@@ -37,8 +37,8 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    private PluginEntity fromCursor(Cursor cursor) {
-        PluginEntity entity = new PluginEntity();
+    private LiteEntity fromCursor(Cursor cursor) {
+        LiteEntity entity = new LiteEntity();
         entity.id = cursor.getInt(cursor.getColumnIndex("pid"));
         entity.name = cursor.getString(cursor.getColumnIndex("name"));
         entity.url = cursor.getString(cursor.getColumnIndex("url"));
@@ -53,7 +53,7 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
         return entity;
     }
 
-    private ContentValues toValues(PluginEntity entity, boolean insert) {
+    private ContentValues toValues(LiteEntity entity, boolean insert) {
         ContentValues values = new ContentValues();
         if (insert) {
             values.put("pid", Integer.valueOf(entity.id));
@@ -94,7 +94,7 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
         return results;
     }
 
-    public List<PluginEntity> queryAll() {
+    public List<LiteEntity> queryAll() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query("plugins", (String[]) null, (String) null, (String[]) null, (String) null,
                 (String) null, (String) null);
@@ -105,7 +105,7 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
                 results = new ArrayList(cursor.getCount());
 
                 while (cursor.moveToNext()) {
-                    PluginEntity entity = this.fromCursor(cursor);
+                    LiteEntity entity = this.fromCursor(cursor);
                     results.add(entity);
                 }
             }
@@ -116,13 +116,13 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
         return results;
     }
 
-    public PluginEntity query(int pluginId) {
+    public LiteEntity query(int pluginId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String selections = "pid = ?";
         String[] args = new String[] {String.valueOf(pluginId)};
         Cursor cursor =
                 db.query("plugins", (String[]) null, selections, args, (String) null, (String) null, (String) null);
-        PluginEntity result = null;
+        LiteEntity result = null;
 
         try {
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToNext()) {
@@ -136,7 +136,7 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
     }
 
     public boolean exists(int pluginId) {
-        PluginEntity entity = this.query(pluginId);
+        LiteEntity entity = this.query(pluginId);
         return entity != null;
     }
 
@@ -147,7 +147,7 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
         return db.delete("plugins", selections, args);
     }
 
-    public int saveOrUpdate(PluginEntity entity) {
+    public int saveOrUpdate(LiteEntity entity) {
         SQLiteDatabase db = this.getWritableDatabase();
         boolean exists = this.exists(entity.id);
         if (exists) {
@@ -162,18 +162,18 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
         }
     }
 
-    public int saveOrUpdateAll(List<PluginEntity> entities) {
+    public int saveOrUpdateAll(List<LiteEntity> entities) {
         if (entities != null && !entities.isEmpty()) {
             List<Integer> ids = this.all();
-            List<PluginEntity> updates = null;
-            List<PluginEntity> inserts = null;
+            List<LiteEntity> updates = null;
+            List<LiteEntity> inserts = null;
             if (ids != null && !ids.isEmpty()) {
                 updates = new ArrayList();
                 inserts = new ArrayList();
                 Iterator var5 = entities.iterator();
 
                 while (var5.hasNext()) {
-                    PluginEntity entity = (PluginEntity) var5.next();
+                    LiteEntity entity = (LiteEntity) var5.next();
                     if (ids.contains(Integer.valueOf(entity.id))) {
                         updates.add(entity);
                     } else {
@@ -192,7 +192,7 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
                 long id;
                 if (!CollectionUtils.isEmpty((Collection) inserts)) {
                     for (Iterator var7 = ((List) inserts).iterator(); var7.hasNext(); count += id > 0L ? 1 : 0) {
-                        PluginEntity entity = (PluginEntity) var7.next();
+                        LiteEntity entity = (LiteEntity) var7.next();
                         ContentValues values = this.toValues(entity, true);
                         id = db.insert("plugins", (String) null, values);
                     }
@@ -205,7 +205,7 @@ public class PluginSQLiteHelper extends SQLiteOpenHelper {
                     ContentValues values;
                     for (Iterator var19 = updates.iterator(); var19.hasNext(); count +=
                             db.update("plugins", values, selections, args)) {
-                        PluginEntity entity = (PluginEntity) var19.next();
+                        LiteEntity entity = (LiteEntity) var19.next();
                         args[0] = String.valueOf(entity.id);
                         values = this.toValues(entity, false);
                     }

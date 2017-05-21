@@ -4,7 +4,7 @@ package com.larry.lite.db;
  * Created by Larry on 2017/5/18.
  */
 
-public class PluginTable {
+public class LiteTable {
     public static final String TABLE = "plugins";
 
     public static final String _ID = "_id";

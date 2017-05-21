@@ -26,15 +26,15 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class LitePluginManagerImpl implements LitePluginManager {
-    private PriorityQueue<PluginEntity> mQueue = new PriorityQueue();
-    private ArrayList<PluginEntity> mPluginList = new ArrayList();
-    private final PluginsDAO mDao;
+    private PriorityQueue<LiteEntity> mQueue = new PriorityQueue();
+    private ArrayList<LiteEntity> mPluginList = new ArrayList();
+    private final LitePluginsDAO mDao;
     private Downloader downloader;
     private LiteContext mContext;
     private Handler mIoHandler;
     private DownloadTask mRunningTask;
     Downloader.OnDownloadListener onDownloadListener = new Downloader.OnDownloadListener() {
-        public void onDownload(PluginEntity entity, int event, int param) {
+        public void onDownload(LiteEntity entity, int event, int param) {
             switch (event) {
                 case Downloader.DE_PROGRESS:
                     LitePluginManagerImpl.this.onProgress(param, entity);
@@ -58,7 +58,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
     private static final int MSG_PROGRESS = 6;
 
     public LitePluginManagerImpl(LiteContext context) {
-        this.mDao = new PluginsDAO(context.getApplicationContext());
+        this.mDao = new LitePluginsDAO(context.getApplicationContext());
         this.mContext = context;
         this.mIoHandler = new LitePluginManagerImpl.DownloadHandler(this, context.getIoLooper());
     }
@@ -70,8 +70,8 @@ public class LitePluginManagerImpl implements LitePluginManager {
         if (CollectionUtils.isEmpty(stubs)) {
             return null;
         } else {
-            List<PluginEntity> localStubs = new ArrayList(this.mPluginList);
-            ArrayList<PluginEntity> newAdds = new ArrayList();
+            List<LiteEntity> localStubs = new ArrayList(this.mPluginList);
+            ArrayList<LiteEntity> newAdds = new ArrayList();
             ArrayList<LiteStub> copies = new ArrayList();
             Iterator var6 = stubs.iterator();
 
@@ -79,9 +79,9 @@ public class LitePluginManagerImpl implements LitePluginManager {
                 while (var6.hasNext()) {
                     LiteStub stub = (LiteStub) var6.next();
                     int index = localStubs.indexOf(stub);
-                    PluginEntity entity;
+                    LiteEntity entity;
                     if (index >= 0) {
-                        entity = (PluginEntity) localStubs.get(index);
+                        entity = (LiteEntity) localStubs.get(index);
                         if (entity.md5.equalsIgnoreCase(stub.md5)) {
                             entity.priority = 50;
                             entity.strategy = stub.strategy;
@@ -92,7 +92,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
                         this.clearPlugin(entity);
                     }
 
-                    entity = new PluginEntity(stub);
+                    entity = new LiteEntity(stub);
                     newAdds.add(entity);
                     copies.add(entity);
                 }
@@ -112,7 +112,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
         }
     }
 
-    void clearPlugin(PluginEntity entity) {
+    void clearPlugin(LiteEntity entity) {
         if (entity.path != null) {
             File file = new File(entity.path);
             if (file.exists()) {
@@ -140,9 +140,9 @@ public class LitePluginManagerImpl implements LitePluginManager {
     }
 
     public boolean savePlugin(LiteStub stub) {
-        if (stub instanceof PluginEntity) {
+        if (stub instanceof LiteEntity) {
             try {
-                this.mDao.saveOrUpdate((PluginEntity) stub);
+                this.mDao.saveOrUpdate((LiteEntity) stub);
                 return true;
             } catch (Exception var3) {
                 return false;
@@ -153,16 +153,16 @@ public class LitePluginManagerImpl implements LitePluginManager {
     }
 
     public boolean loadPlugins() {
-        List<PluginEntity> all = this.mDao.queryAll();
+        List<LiteEntity> all = this.mDao.queryAll();
         if (all != null) {
             this.mPluginList.addAll(all);
         }
 
-        ArrayList<PluginEntity> unFinishList = new ArrayList();
+        ArrayList<LiteEntity> unFinishList = new ArrayList();
         Iterator var3 = this.mPluginList.iterator();
 
         while (var3.hasNext()) {
-            PluginEntity entity = (PluginEntity) var3.next();
+            LiteEntity entity = (LiteEntity) var3.next();
             if (!entity.ready) {
                 unFinishList.add(entity);
             }
@@ -177,7 +177,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
         if (index < 0) {
             throw new RuntimeException("plugin not exist");
         } else {
-            PluginEntity entity = (PluginEntity) this.mPluginList.get(index);
+            LiteEntity entity = (LiteEntity) this.mPluginList.get(index);
             if (entity.ready) {
                 return false;
             } else {
@@ -202,7 +202,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
 
     }
 
-    private void enqueue(PluginEntity entity) {
+    private void enqueue(LiteEntity entity) {
         if (!this.isCurrentIoThread()) {
             Message msg = this.mIoHandler.obtainMessage(2, entity);
             msg.sendToTarget();
@@ -218,7 +218,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
         }
     }
 
-    private void enqueue(List<PluginEntity> tasks) {
+    private void enqueue(List<LiteEntity> tasks) {
         if (!this.isCurrentIoThread()) {
             Message msg = this.mIoHandler.obtainMessage(1, tasks);
             msg.sendToTarget();
@@ -234,7 +234,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
                 Iterator var4 = tasks.iterator();
 
                 while (var4.hasNext()) {
-                    PluginEntity entity = (PluginEntity) var4.next();
+                    LiteEntity entity = (LiteEntity) var4.next();
                     if (!entity.ready && !StringUtils.isNull(entity.url) && !StringUtils.isNull(entity.md5)) {
                         this.mQueue.add(entity);
                     }
@@ -249,15 +249,15 @@ public class LitePluginManagerImpl implements LitePluginManager {
         }
     }
 
-    private PluginEntity dequeue() {
-        return (PluginEntity) this.mQueue.poll();
+    private LiteEntity dequeue() {
+        return (LiteEntity) this.mQueue.poll();
     }
 
     private boolean isCurrentIoThread() {
         return Thread.currentThread() == this.mIoHandler.getLooper().getThread();
     }
 
-    void onError(int cause, PluginEntity entity) {
+    void onError(int cause, LiteEntity entity) {
         if (this.isCurrentIoThread()) {
             String desc = String.valueOf(cause);
             switch (cause) {
@@ -301,7 +301,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
 
     }
 
-    void onProgress(int progress, PluginEntity entity) {
+    void onProgress(int progress, LiteEntity entity) {
         if (this.isCurrentIoThread()) {
             LiteLog.d("progress %d", new Object[] {Integer.valueOf(progress)});
             this.mDao.saveOrUpdate(entity);
@@ -313,7 +313,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
 
     }
 
-    void onComplete(int cause, PluginEntity entity) {
+    void onComplete(int cause, LiteEntity entity) {
         if (this.isCurrentIoThread()) {
             if (cause != 1) {
                 if (cause == 0) {
@@ -364,7 +364,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
                 LiteLog.w("schedule execute no avalibale network", new Object[0]);
                 this.stopAll(4);
             } else {
-                PluginEntity entity = this.dequeue();
+                LiteEntity entity = this.dequeue();
                 if (entity == null) {
                     LiteLog.d("queue has no entity", new Object[0]);
                 } else {
@@ -389,7 +389,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
 
     }
 
-    private void printErrorLog(PluginEntity entity, String type, int sta, String desc) {
+    private void printErrorLog(LiteEntity entity, String type, int sta, String desc) {
         NetworkLogger.reportDownloaded(this.mContext, entity.id, entity.md5, type, sta, desc);
     }
 
@@ -404,14 +404,14 @@ public class LitePluginManagerImpl implements LitePluginManager {
         public void handleMessage(Message msg) {
             LitePluginManagerImpl impl = (LitePluginManagerImpl) this.mRef.get();
             if (impl != null) {
-                PluginEntity entity;
+                LiteEntity entity;
                 switch (msg.what) {
                     case 1:
-                        List<PluginEntity> plugins = (List) msg.obj;
+                        List<LiteEntity> plugins = (List) msg.obj;
                         impl.enqueue(plugins);
                         break;
                     case 2:
-                        entity = (PluginEntity) msg.obj;
+                        entity = (LiteEntity) msg.obj;
                         impl.enqueue(entity);
                         break;
                     case 3:
@@ -419,15 +419,15 @@ public class LitePluginManagerImpl implements LitePluginManager {
                         impl.schedule();
                         break;
                     case 4:
-                        entity = (PluginEntity) msg.obj;
+                        entity = (LiteEntity) msg.obj;
                         impl.onComplete(msg.arg1, entity);
                         break;
                     case 5:
-                        entity = (PluginEntity) msg.obj;
+                        entity = (LiteEntity) msg.obj;
                         impl.onError(msg.arg1, entity);
                         break;
                     case 6:
-                        entity = (PluginEntity) msg.obj;
+                        entity = (LiteEntity) msg.obj;
                         impl.onProgress(msg.arg1, entity);
                 }
 

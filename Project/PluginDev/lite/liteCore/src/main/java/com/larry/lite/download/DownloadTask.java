@@ -1,17 +1,17 @@
 
 package com.larry.lite.download;
 
-import com.larry.lite.db.PluginEntity;
+import com.larry.lite.db.LiteEntity;
 
 public class DownloadTask {
-    private final PluginEntity mEntity;
+    private final LiteEntity mEntity;
     private Downloader mDownloader;
 
-    public DownloadTask(PluginEntity entity) {
+    public DownloadTask(LiteEntity entity) {
         this.mEntity = entity;
     }
 
-    public PluginEntity getEntity() {
+    public LiteEntity getEntity() {
         return this.mEntity;
     }
 

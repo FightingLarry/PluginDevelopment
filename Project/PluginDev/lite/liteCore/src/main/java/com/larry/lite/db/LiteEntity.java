@@ -7,16 +7,16 @@ import com.larry.lite.LitePluginManager.PluginReadyCallback;
 
 import java.lang.ref.WeakReference;
 
-public class PluginEntity extends LiteStub implements Comparable<PluginEntity>, Cloneable {
+public class LiteEntity extends LiteStub implements Comparable<LiteEntity>, Cloneable {
     public int state = 0;
     public long downloaded;
     public int priority = 50;
     public int retry = 1;
     public WeakReference<PluginReadyCallback> callback;
 
-    public PluginEntity() {}
+    public LiteEntity() {}
 
-    public PluginEntity(LiteStub stub) {
+    public LiteEntity(LiteStub stub) {
         this.id = stub.id;
         this.url = stub.url;
         this.path = stub.path;
@@ -28,7 +28,7 @@ public class PluginEntity extends LiteStub implements Comparable<PluginEntity>, 
         this.ready = stub.ready;
     }
 
-    public int compareTo(PluginEntity another) {
+    public int compareTo(LiteEntity another) {
         return Comparators.compare(this.priority, (long) another.priority);
     }
 

@@ -16,7 +16,7 @@ import com.squareup.okhttp.Request.Builder;
 import com.larry.lite.LiteException;
 import com.larry.lite.obtain.LiteObtainSdCardPlugin;
 import com.larry.lite.obtain.LiteClassLoader;
-import com.larry.lite.db.PluginEntity;
+import com.larry.lite.db.LiteEntity;
 import com.larry.lite.utils.FileUtils;
 import com.larry.lite.utils.Streams;
 import java.io.File;
@@ -30,16 +30,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-public class Downloader implements DownloadURLParams.URLParamsCreator<PluginEntity>, Runnable {
+public class Downloader implements DownloadURLParams.URLParamsCreator<LiteEntity>, Runnable {
     public static final int DE_PROGRESS = 1;
     public static final int DE_COMPLETE = 2;
     public static final int DE_VERIFICATION_COMPLETE = 3;
     public static final int DE_ERROR = 4;
     private static final int BUFF_LEN = 4096;
-    protected PluginEntity mEntity = null;
+    protected LiteEntity mEntity = null;
     protected Downloader.OnDownloadListener mOnDownloadListener = null;
-    private DownloadURLParams<PluginEntity> mParams = null;
-    private DownloadURLParams.URLParamsCreator<PluginEntity> mParamsCreator;
+    private DownloadURLParams<LiteEntity> mParams = null;
+    private DownloadURLParams.URLParamsCreator<LiteEntity> mParamsCreator;
     private Thread mDownloadThread;
     private volatile boolean isExecuting = false;
     private OkHttpClient mClient;
@@ -51,7 +51,7 @@ public class Downloader implements DownloadURLParams.URLParamsCreator<PluginEnti
     int oldProgress = 0;
 
     public Downloader(LiteContext context, DownloadTask task,
-                      DownloadURLParams.URLParamsCreator<PluginEntity> creator) {
+                      DownloadURLParams.URLParamsCreator<LiteEntity> creator) {
         this.mContext = context;
         this.mClient = context.getConnectionFactory().getOkHttpClient();
         this.mTask = task;
@@ -74,8 +74,8 @@ public class Downloader implements DownloadURLParams.URLParamsCreator<PluginEnti
         }
     }
 
-    public DownloadURLParams<PluginEntity> createUrlParams(PluginEntity entity) {
-        DownloadURLParams<PluginEntity> params = new DownloadURLParams();
+    public DownloadURLParams<LiteEntity> createUrlParams(LiteEntity entity) {
+        DownloadURLParams<LiteEntity> params = new DownloadURLParams();
         params.url = entity.url;
         if (!TextUtils.isEmpty(entity.path) && FileUtils.exists(entity.path)) {
             if (entity.path.endsWith(".wmp")) {
@@ -93,10 +93,10 @@ public class Downloader implements DownloadURLParams.URLParamsCreator<PluginEnti
         return params;
     }
 
-    private Request createRequest(DownloadURLParams<PluginEntity> params) {
+    private Request createRequest(DownloadURLParams<LiteEntity> params) {
         Map<String, String> headers = null;
-        long pos = ((PluginEntity) params.entity).downloaded;
-        long len = ((PluginEntity) params.entity).size;
+        long pos = ((LiteEntity) params.entity).downloaded;
+        long len = ((LiteEntity) params.entity).size;
         if (len > 0L) {
             headers = new HashMap();
             headers.put("RANGE", "bytes=" + pos + "-" + (pos + len - 1L));
@@ -151,7 +151,7 @@ public class Downloader implements DownloadURLParams.URLParamsCreator<PluginEnti
 
     public void run() {
         byte err;
-        PluginEntity entity;
+        LiteEntity entity;
         DownloadURLParams params;
         label341: {
             err = 0;
@@ -456,6 +456,6 @@ public class Downloader implements DownloadURLParams.URLParamsCreator<PluginEnti
     }
 
     public interface OnDownloadListener {
-        void onDownload(PluginEntity var1, int var2, int var3);
+        void onDownload(LiteEntity var1, int var2, int var3);
     }
 }

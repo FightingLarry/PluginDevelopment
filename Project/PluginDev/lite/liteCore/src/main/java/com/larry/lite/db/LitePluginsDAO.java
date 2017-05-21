@@ -8,25 +8,25 @@ import com.larry.lite.utils.FileUtils;
 import java.util.Iterator;
 import java.util.List;
 
-public class PluginsDAO {
+public class LitePluginsDAO {
     private final Context mContext;
-    private PluginSQLiteHelper mHelper;
+    private LiteSQLiteHelper mHelper;
 
-    public PluginsDAO(Context c) {
+    public LitePluginsDAO(Context c) {
         this.mContext = c;
-        this.mHelper = new PluginSQLiteHelper(c);
+        this.mHelper = new LiteSQLiteHelper(c);
     }
 
     public Context getContext() {
         return this.mContext;
     }
 
-    public List<PluginEntity> queryAll() {
-        List<PluginEntity> list = this.mHelper.queryAll();
+    public List<LiteEntity> queryAll() {
+        List<LiteEntity> list = this.mHelper.queryAll();
         if (list != null && !list.isEmpty()) {
-            PluginEntity stub;
+            LiteEntity stub;
             for (Iterator var2 = list.iterator(); var2.hasNext(); stub.priority = 0) {
-                stub = (PluginEntity) var2.next();
+                stub = (LiteEntity) var2.next();
                 if (stub.state == 1 && (TextUtils.isEmpty(stub.path) || !FileUtils.exists(stub.path))) {
                     stub.state = 0;
                     stub.ready = false;
@@ -43,15 +43,15 @@ public class PluginsDAO {
         return this.mHelper.query(id);
     }
 
-    public void delete(PluginEntity t) {
+    public void delete(LiteEntity t) {
         this.mHelper.delete(t.id);
     }
 
-    public void saveOrUpdate(PluginEntity entity) {
+    public void saveOrUpdate(LiteEntity entity) {
         this.mHelper.saveOrUpdate(entity);
     }
 
-    public void saveOrUpdateAll(List<PluginEntity> entities) {
+    public void saveOrUpdateAll(List<LiteEntity> entities) {
         this.mHelper.saveOrUpdateAll(entities);
     }
 }
