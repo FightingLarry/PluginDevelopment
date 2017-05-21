@@ -20,7 +20,7 @@
 
         <meta-data
             android:name="com.larry.lite.host.HostModule"
-            android:value="PluginModule" />
+            android:value="LiteModule" />
 
     </application>
 
