@@ -7,10 +7,10 @@ import android.content.Intent;
  * Created by Larry on 2017/5/16.
  */
 
-public class LitePlugin {
+public class LitePluginSDK {
 
     public static void init(Context context) {
-        LiteLog.d("LitePlugin#init()");
+        LiteLog.d("LitePluginSDK#init()");
         Intent intent = new Intent(context, LiteService.class);
         intent.setAction(LiteEvent.KeyEventStart.name());
         context.startService(intent);

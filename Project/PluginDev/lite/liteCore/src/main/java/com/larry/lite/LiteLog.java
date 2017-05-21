@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class LiteLog {
 
-    private static final String TAG = "LitePlugin";
+    private static final String TAG = "LitePluginSDK";
 
     private static final LiteLog.Logger DEFAULT = new LiteLog.Logger() {
         public boolean isDebug() {
