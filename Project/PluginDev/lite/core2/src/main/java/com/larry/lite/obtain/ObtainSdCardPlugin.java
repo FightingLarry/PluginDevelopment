@@ -1,4 +1,3 @@
-
 package com.larry.lite.obtain;
 
 import android.content.Context;
@@ -60,7 +59,8 @@ public class ObtainSdCardPlugin implements ConfigurationCrawler {
                         }
                     } else {
                         removes.add(stub);
-                        PLog.w("plugin %d file not exist or length not match", new Object[] {Integer.valueOf(stub.id)});
+                        PLog.w("plugin id %d : %s", Integer.valueOf(stub.id), file.exists() ? "file size error: "
+                                + file.length() : "file is not exists");
                     }
                 } else {
                     removes.add(stub);

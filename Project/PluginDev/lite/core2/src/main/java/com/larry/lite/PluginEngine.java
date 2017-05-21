@@ -1,4 +1,3 @@
-
 package com.larry.lite;
 
 import android.os.Handler;
@@ -32,6 +31,7 @@ public class PluginEngine implements PluginLifecycleCallback, Callback {
     private Runnable mPendingAction = null;
     private NetworkHelper.NetworkInductor mNetworkInductor;
     private ConfigurationCrawler mCrawler;
+    private List<ConfigurationCrawler> mCrawlerList;
     private volatile boolean isUpdatingConfiguration = false;
     private static final int MSG_UPDATE_CONFIGURATION = 1;
     private static final int MSG_PERF_SNAPSHOT = 2;
@@ -41,7 +41,7 @@ public class PluginEngine implements PluginLifecycleCallback, Callback {
         this.mContext = context;
         this.mIoHandler = new PluginEngine.EngineHandler();
         this.mStats = new PluginStats(context.getApplicationContext());
-        this.mCrawler = context.getConfigurationCrawler();
+        this.mCrawlerList = context.getConfigurationCrawler();
     }
 
     public void setRunLoop(Looper looper) {
@@ -177,17 +177,33 @@ public class PluginEngine implements PluginLifecycleCallback, Callback {
             msg.sendToTarget();
             return 3;
         } else if (!ignoreExpired && !this.configExpired()) {
-            PLog.w("config not expired! last update time: %s",
-                    new Object[] {Long.valueOf(this.mContext.getConfiguration().getLastUpdateTimestamp())});
+            PLog.w("config not expired! last update time: %s", this.mContext.getConfiguration()
+                    .getLastUpdateTimestamp());
             return 2;
         } else {
-            int err = this.mCrawler.crawlConfiguration(this);
-            PLog.i("crawl configuration result: %d", new Object[] {Integer.valueOf(err)});
-            if (err == 0) {
-                this.isUpdatingConfiguration = true;
+
+            if (CollectionUtils.isEmpty(mCrawlerList)) {
+                return ConfigurationCrawler.FAIL_NULL;
             }
 
+            int err = ConfigurationCrawler.SUCCESS;
+            for (ConfigurationCrawler configurationCrawler : mCrawlerList) {
+                err = configurationCrawler.crawlConfiguration(this);
+                PLog.i("crawl configuration result: %d", new Object[] {Integer.valueOf(err)});
+                if (err == ConfigurationCrawler.SUCCESS) {
+                    this.isUpdatingConfiguration = true;
+                }
+            }
+            // int err = this.mCrawler.crawlConfiguration(this);
+            // PLog.i("crawl configuration result: %d", new Object[] {Integer.valueOf(err)});
+            // if (err == 0) {
+            // this.isUpdatingConfiguration = true;
+            // }
+            if (isUpdatingConfiguration) {
+                return ConfigurationCrawler.SUCCESS;
+            }
             return err;
+
         }
     }
 

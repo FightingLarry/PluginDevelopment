@@ -135,18 +135,18 @@ public class PluginDownloader implements URLParams.URLParamsCreator<PluginEntity
     protected void onAdvance(int progress) {
         if (this.oldProgress != progress) {
             this.oldProgress = progress;
-            this.notifyDownloadEvent(1, progress);
+            this.notifyDownloadEvent(DE_PROGRESS, progress);
         }
     }
 
     protected void onError(int cause) {
         this.onAdvance(0);
         this.mParams.target.delete();
-        this.notifyDownloadEvent(4, cause);
+        this.notifyDownloadEvent(DE_ERROR, cause);
     }
 
     protected void onComplete(int cause) {
-        this.notifyDownloadEvent(2, cause);
+        this.notifyDownloadEvent(DE_COMPLETE, cause);
     }
 
     public void run() {

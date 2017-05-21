@@ -1,4 +1,3 @@
-
 package com.larry.lite.obtain;
 
 import android.content.Context;
@@ -49,7 +48,7 @@ public class PluginClassLoader extends ClassLoader {
 
         this.parseManifest(dir, name);
         File optimizedDir = context.getDir(name, 0);
-        String dex = (new File(dir, name + CLASSES_NAME)).getAbsolutePath();
+        String dex = (new File(dir, name + File.separator + CLASSES_NAME)).getAbsolutePath();
         this.mDexClassLoader = new DexClassLoader(dex, optimizedDir.getAbsolutePath(), (String) null, parent);
     }
 
@@ -78,7 +77,7 @@ public class PluginClassLoader extends ClassLoader {
     }
 
     private void parseManifest(File dir, String name) throws PluginException {
-        File manifestFile = new File(dir, name + JSON_NAME);
+        File manifestFile = new File(dir, name + File.separator + JSON_NAME);
         if (!manifestFile.exists()) {
             throw new PluginException(PluginError.MANIFEST_NOT_EXIST, "manifest.json  not exists");
         } else {
@@ -142,21 +141,21 @@ public class PluginClassLoader extends ClassLoader {
                     case 168:
                         break;
                     default:
-                        throw new PluginException(PluginError.MANIFEST_LAUNCH_PARAM_IS_NULL,
-                                "launchParam " + modeExtra + " not match for mode " + manifest.launch);
+                        throw new PluginException(PluginError.MANIFEST_LAUNCH_PARAM_IS_NULL, "launchParam " + modeExtra
+                                + " not match for mode " + manifest.launch);
                 }
             } else {
                 if (!manifest.launch.equals(LaunchMode.KeyEvent.toString())) {
-                    throw new PluginException(PluginError.MANIFEST_LAUNCH_MODE_IS_NULL,
-                            "Unsupported mode " + manifest.launch);
+                    throw new PluginException(PluginError.MANIFEST_LAUNCH_MODE_IS_NULL, "Unsupported mode "
+                            + manifest.launch);
                 }
 
                 manifest.launchParam = manifest.launchParam.toLowerCase();
                 if (!TextUtils.equals("start", manifest.launchParam)
                         && !TextUtils.equals("background", manifest.launchParam)
                         && !TextUtils.equals("upgrade", manifest.launchParam)) {
-                    throw new PluginException(PluginError.MANIFEST_LAUNCH_PARAM_IS_NULL,
-                            "launchParam " + manifest.launchParam + " not match for mode " + manifest.launch);
+                    throw new PluginException(PluginError.MANIFEST_LAUNCH_PARAM_IS_NULL, "launchParam "
+                            + manifest.launchParam + " not match for mode " + manifest.launch);
                 }
             }
 

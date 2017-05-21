@@ -1,10 +1,7 @@
-
 package com.larry.lite;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -154,15 +151,16 @@ public class PluginService extends GrayService {
         }
 
         this.onPluginContextCreated(context);
-        if (context.isLocalDebug()) {
-            context.setConfigurationCrawler(new ObtainSdCardPlugin(context));
-        } else {
-            context.setConfigurationCrawler(new ObtainRemotePlugin(context, context.getConnectionFactory()));
-        }
+
+        // if (context.isLocalDebug()) {
+        context.addConfigurationCrawler(new ObtainSdCardPlugin(context));
+        // } else {
+        context.addConfigurationCrawler(new ObtainRemotePlugin(context, context.getConnectionFactory()));
+        // }
 
         Object crawler = this.mComponents.get("crawler");
         if (crawler != null && crawler instanceof ConfigurationCrawler) {
-            context.setConfigurationCrawler((ConfigurationCrawler) crawler);
+            context.addConfigurationCrawler((ConfigurationCrawler) crawler);
         }
 
         this.mEngine = new PluginEngine(context);

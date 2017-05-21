@@ -1,4 +1,3 @@
-
 package com.larry.lite;
 
 import java.util.List;
@@ -10,6 +9,7 @@ public interface ConfigurationCrawler {
     int FAIL_NEVER_TRY = -10;
     int FAIL_NONE_NETWORK = -11;
     int FAIL_IO = -12;
+    int FAIL_NULL = -13;
     int ALREADY = 1;
     int NOT_EXPIRED = 2;
     int CONTINUE = 3;

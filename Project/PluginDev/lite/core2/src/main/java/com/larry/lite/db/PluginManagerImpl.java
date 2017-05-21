@@ -1,4 +1,3 @@
-
 package com.larry.lite.db;
 
 import android.content.Context;
@@ -37,15 +36,15 @@ public class PluginManagerImpl implements PluginManager {
     PluginDownloader.OnDownloadListener onDownloadListener = new PluginDownloader.OnDownloadListener() {
         public void onDownload(PluginEntity entity, int event, int param) {
             switch (event) {
-                case 1:
+                case PluginDownloader.DE_PROGRESS:
                     PluginManagerImpl.this.onProgress(param, entity);
                     break;
-                case 2:
+                case PluginDownloader.DE_COMPLETE:
                     PluginManagerImpl.this.onComplete(param, entity);
-                case 3:
+                case PluginDownloader.DE_VERIFICATION_COMPLETE:
                 default:
                     break;
-                case 4:
+                case PluginDownloader.DE_ERROR:
                     PluginManagerImpl.this.onError(param, entity);
             }
 
@@ -89,7 +88,6 @@ public class PluginManagerImpl implements PluginManager {
                             copies.add(entity);
                             continue;
                         }
-
                         localStubs.remove(stub);
                         this.clearPlugin(entity);
                     }

@@ -1,11 +1,13 @@
-
 package com.larry.lite;
 
 import android.content.Context;
 import android.os.Looper;
 import android.text.TextUtils;
 import com.larry.lite.base.ConnectionFactory;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class PluginContext {
@@ -14,6 +16,7 @@ public final class PluginContext {
     private ConnectionFactory mConnectionFactory;
     private Looper mIoLooper;
     private ConfigurationCrawler mCrawler;
+    private List<ConfigurationCrawler> mCrawlerList;
     private String mUserAgent;
     private String mChannel;
     private String mPluginConfigUrl;
@@ -122,11 +125,16 @@ public final class PluginContext {
         return this.mNetworkCommonParams;
     }
 
-    public ConfigurationCrawler getConfigurationCrawler() {
-        return this.mCrawler;
+    public List<ConfigurationCrawler> getConfigurationCrawler() {
+        return this.mCrawlerList;
     }
 
-    void setConfigurationCrawler(ConfigurationCrawler crawler) {
-        this.mCrawler = crawler;
+    void addConfigurationCrawler(ConfigurationCrawler crawler) {
+        if (mCrawlerList == null) {
+            mCrawlerList = new ArrayList<>();
+        }
+        if (!mCrawlerList.contains(crawler)) {
+            mCrawlerList.add(crawler);
+        }
     }
 }

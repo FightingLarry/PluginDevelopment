@@ -1,4 +1,3 @@
-
 package com.larry.lite.obtain;
 
 import android.content.Context;
@@ -10,26 +9,32 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.larry.lite.PluginContext;
-import com.larry.lite.network.NetworkHelper;
-import com.larry.lite.utils.AndroidUtil;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
-import com.squareup.okhttp.Request.Builder;
 import com.larry.lite.ConfigurationCrawler;
 import com.larry.lite.PLog;
 import com.larry.lite.PluginConfiguration;
+import com.larry.lite.PluginContext;
 import com.larry.lite.PluginStub;
 import com.larry.lite.base.ConnectionFactory;
 import com.larry.lite.base.LaunchMode;
 import com.larry.lite.base.LaunchStrategy;
 import com.larry.lite.base.NetworkType;
+import com.larry.lite.network.NetworkError;
+import com.larry.lite.network.NetworkHelper;
+import com.larry.lite.utils.AndroidUtil;
 import com.larry.lite.utils.TelephonyManagerUtil;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Request.Builder;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -38,9 +43,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ObtainRemotePlugin implements ConfigurationCrawler {
     final PluginContext mContext;
@@ -62,8 +64,7 @@ public class ObtainRemotePlugin implements ConfigurationCrawler {
                 throw new RuntimeException("what!!! no plugin config url!!!");
             } else {
                 Call call = this.requestPlugins(url, this.createRequestBody());
-                call.enqueue(
-                        new ObtainRemotePlugin.ConfigurationCallBack(new ObtainRemotePlugin.WrapCallback(callback)));
+                call.enqueue(new ObtainRemotePlugin.ConfigurationCallBack(new ObtainRemotePlugin.WrapCallback(callback)));
                 this.mCall = call;
                 return 0;
             }
@@ -297,10 +298,10 @@ public class ObtainRemotePlugin implements ConfigurationCrawler {
                 try {
                     this.parse(result);
                 } catch (Exception var6) {
-                    this.onResultStatus(-4, (List) null, 0L);
+                    this.onResultStatus(NetworkError.FAIL_IO_ERROR, (List) null, 0L);
                 }
             } else {
-                this.onResultStatus(-4, (List) null, 0L);
+                this.onResultStatus(NetworkError.FAIL_IO_ERROR, (List) null, 0L);
             }
 
         }
@@ -309,11 +310,11 @@ public class ObtainRemotePlugin implements ConfigurationCrawler {
             JSONObject jsonObject = new JSONObject(result);
             ObtainRemotePlugin.ConfigurationResult cr = ObtainRemotePlugin.parseResult(jsonObject);
             if (cr.status == 0) {
-                this.onResultStatus(0, cr.plugins, cr.ts);
+                this.onResultStatus(NetworkError.SUCCESS, cr.plugins, cr.ts);
             } else if (cr.status == -1) {
-                this.onResultStatus(4097, (List) null, 0L);
+                this.onResultStatus(ConfigurationCrawler.ERR_CONFIG_NO_CHANGED, (List) null, 0L);
             } else {
-                this.onResultStatus(-4, (List) null, 0L);
+                this.onResultStatus(NetworkError.FAIL_IO_ERROR, (List) null, 0L);
             }
 
         }
