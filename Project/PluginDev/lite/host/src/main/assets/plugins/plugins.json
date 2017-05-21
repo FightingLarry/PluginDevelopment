@@ -9,7 +9,7 @@
       "launchParam": "1",
       "limit": 0,
       "network": "WIFI",
-      "path": "myplugin.tdp"
+      "path": "myplugin.lite"
     },
     {
       "id": "200099",
@@ -20,7 +20,7 @@
       "launchParam": "start",
       "limit": 0,
       "network": "WIFI",
-      "path": "myplugin2.tdp"
+      "path": "myplugin2.lite"
     }
   ],
   "ts": 1461034874609

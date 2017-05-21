@@ -26,7 +26,7 @@ import java.util.Iterator;
 
 public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
     public static final String LOCAL_PLUGIN_DIR = ".plugins";
-    public static final String PLUGIN_SUFFIX = ".tdp";
+    public static final String PLUGIN_SUFFIX = ".lite";
     public static final String CONFIG_MANIFEST_FILE = "plugins.json";
     public static final int LOCAL_PLUGIN_ID_BASE = 200000;
     final LiteContext mContext;
