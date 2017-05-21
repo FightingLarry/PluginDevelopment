@@ -40,7 +40,7 @@ public class LiteService extends GrayService {
     HandlerThread mIoThread;
     Handler mIoHandler;
     // Handler mUiHandler;
-    private ILiteEngine mEngine;
+    private LiteManager mEngine;
     AlarmManager mAlarmManager;
     PendingIntent mAlarmOperation;
     private boolean isFirst;
@@ -167,7 +167,7 @@ public class LiteService extends GrayService {
             context.addConfigurationCrawler((ILiteObtainPlugin) crawler);
         }
 
-        this.mEngine = new ILiteEngine(context);
+        this.mEngine = new LiteManager(context);
         this.mEngine.setRunLoop(context.getIoLooper());
 
         this.mAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);

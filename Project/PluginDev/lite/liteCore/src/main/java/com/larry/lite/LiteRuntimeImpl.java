@@ -29,9 +29,9 @@ public class LiteRuntimeImpl implements LiteRuntime {
     private final LiteContext mContext;
     private final LitePluginManager mManager;
     private Handler mIoHandler;
-    private final ILiteEngine mEngine;
+    private final LiteManager mEngine;
     private SparseArray<LiteStub> mWaitingQueue;
-    private LiteManager mRunningPlugin;
+    private LiteStubManager mRunningPlugin;
     private boolean mAllowSchedule = true;
     private ILiteLifecycleCallback mCallback = new ILiteLifecycleCallback() {
         public void onPluginCreate(LiteStub plugin) {
@@ -73,7 +73,7 @@ public class LiteRuntimeImpl implements LiteRuntime {
     private static final int MSG_SCHEDULE = 2;
     private static final int MSG_COMPLETE = 3;
 
-    public LiteRuntimeImpl(LiteContext context, LitePluginManager manager, ILiteEngine engine) {
+    public LiteRuntimeImpl(LiteContext context, LitePluginManager manager, LiteManager engine) {
         this.mContext = context;
         this.mManager = manager;
         this.mEngine = engine;
@@ -118,7 +118,7 @@ public class LiteRuntimeImpl implements LiteRuntime {
             msg.sendToTarget();
         } else {
             boolean running = false;
-            LiteManager task = this.mRunningPlugin;
+            LiteStubManager task = this.mRunningPlugin;
             if (task != null) {
                 executes.remove(task.getStub());
                 running = true;
@@ -185,7 +185,7 @@ public class LiteRuntimeImpl implements LiteRuntime {
                 }
             }
 
-            LiteManager task = new LiteManager(plugin);
+            LiteStubManager task = new LiteStubManager(plugin);
             this.mRunningPlugin = task;
             this.mWaitingQueue.remove(plugin.id);
             LiteRunnable liteRunnable = new LiteRunnable(this.mContext, task, this, this.mManager);

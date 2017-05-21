@@ -7,7 +7,7 @@ import com.larry.lite.base.LitePluginPeer;
 
 public class LiteRunnable implements Runnable {
     private final LiteContext mContext;
-    private final LiteManager mTask;
+    private final LiteStubManager mTask;
     private final LiteRuntime mRuntime;
     private final LitePluginPeer mPeer;
     private final LitePluginManager mManager;
@@ -32,7 +32,7 @@ public class LiteRunnable implements Runnable {
         }
     };
 
-    LiteRunnable(LiteContext context, LiteManager task, LiteRuntime runtime, LitePluginManager manager) {
+    LiteRunnable(LiteContext context, LiteStubManager task, LiteRuntime runtime, LitePluginManager manager) {
         this.mContext = context;
         this.mTask = task;
         this.mRuntime = runtime;
