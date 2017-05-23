@@ -12,6 +12,7 @@ import com.larry.lite.LitePluginsConfigInfo;
 import com.larry.lite.LiteConfigType;
 import com.larry.lite.utils.CollectionUtils;
 import com.larry.lite.utils.IOUtils;
+import com.larry.lite.utils.MD5Util;
 import com.larry.lite.utils.Streams;
 import com.larry.taskflows.TaskManager;
 
@@ -22,6 +23,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -50,22 +53,23 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
                     removes.add(stub);
                     LiteLog.w("plugin %d path empty or md5 empty", Integer.valueOf(stub.id));
                 } else if (!TextUtils.isEmpty(stub.path) && !TextUtils.isEmpty(stub.md5)) {
-
-                    // String assertPath = String.format("%s%s%s", ASSERT_PLUGIN_DIR,
-                    // File.separator, stub.path);
-                    // AssetFileDescriptor assetFileDescriptor =
-                    // mContext.getApplicationContext().getAssets().openFd(assertPath);
-                    // if (assetFileDescriptor != null && assetFileDescriptor.getLength() ==
-                    // stub.size) {
-                    // stub.path = assertPath;
-                    // stub.ready = true;
-                    // } else {
-                    // removes.add(stub);
-                    // LiteLog.w("assert plugin id %d : %s", Integer.valueOf(stub.id),
-                    // assetFileDescriptor != null
-                    // ? "file size error: " + assetFileDescriptor.getLength()
-                    // : "assert file is not exists");
-                    // }
+                    String assertPath = String.format("%s%s%s", ASSERT_PLUGIN_DIR, File.separator, stub.path);
+                    // TODO
+                    File file = new File(new URI(String.format("file:///android_asset/%s", assertPath)));
+                    if (file != null && file.length() == stub.size) {
+                        String md5 = MD5Util.getFileMD5(file.getAbsolutePath());
+                        if (!stub.md5.equalsIgnoreCase(md5)) {
+                            removes.add(stub);
+                            LiteLog.w("plugin %d md5(%s) not match, calc md5 is %s",
+                                    new Object[] {Integer.valueOf(stub.id), stub.md5, md5});
+                        } else {
+                            stub.path = file.getAbsolutePath();
+                            stub.ready = true;
+                        }
+                        removes.add(stub);
+                        LiteLog.w("assert plugin id %d : %s", Integer.valueOf(stub.id),
+                                file != null ? "file size error: " + file.length() : "assert file is not exists");
+                    }
 
                 } else {
                     removes.add(stub);
@@ -111,10 +115,9 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
                             Streams.safeClose(is);
                         }
 
-                        String content =
-                                contentBytes != null && contentBytes.length != 0
-                                        ? new String(contentBytes, "utf-8")
-                                        : null;
+                        String content = contentBytes != null && contentBytes.length != 0
+                                ? new String(contentBytes, "utf-8")
+                                : null;
                         if (TextUtils.isEmpty(content)) {
                             LiteLog.w("manifest file %s content empty.", new Object[] {CONFIG_MANIFEST_FILE});
                             return ILiteObtainPlugin.FAIL_IO;

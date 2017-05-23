@@ -61,8 +61,8 @@ public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
                         }
                     } else {
                         removes.add(stub);
-                        LiteLog.w("plugin id %d : %s", Integer.valueOf(stub.id), file.exists() ? "file size error: "
-                                + file.length() : "file is not exists");
+                        LiteLog.w("plugin id %d : %s", Integer.valueOf(stub.id),
+                                file.exists() ? "file size error: " + file.length() : "file is not exists");
                     }
                 } else {
                     removes.add(stub);
@@ -98,13 +98,13 @@ public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
                 if (files != null && files.length != 0) {
                     File file = new File(dir, CONFIG_MANIFEST_FILE);
                     if (!file.exists()) {
-                        LiteLog.w("local plugins manifest file %s not exists.", new Object[] {CONFIG_MANIFEST_FILE});
+                        LiteLog.w("local plugins manifest file %s not exists.", CONFIG_MANIFEST_FILE);
                         return ILiteObtainPlugin.ALREADY;
                     } else {
                         try {
                             String s = FileUtils.readString(file);
                             if (TextUtils.isEmpty(s)) {
-                                LiteLog.w("manifest file %s content empty.", new Object[] {CONFIG_MANIFEST_FILE});
+                                LiteLog.w("manifest file %s content empty.", CONFIG_MANIFEST_FILE);
                                 return ILiteObtainPlugin.FAIL_IO;
                             } else {
                                 JSONObject jsonObject = new JSONObject(s);
