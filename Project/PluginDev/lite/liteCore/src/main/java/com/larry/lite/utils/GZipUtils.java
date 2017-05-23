@@ -105,10 +105,10 @@ public abstract class GZipUtils {
 
         try {
             gos = new GZIPOutputStream(os);
-            byte[] data = new byte[1024];
+            byte[] data = new byte[BUFFER];
 
             int count;
-            while ((count = is.read(data, 0, 1024)) != -1) {
+            while ((count = is.read(data, 0, BUFFER)) != -1) {
                 gos.write(data, 0, count);
             }
 
@@ -264,10 +264,10 @@ public abstract class GZipUtils {
 
         try {
             gis = new GZIPInputStream(is);
-            byte[] data = new byte[1024];
+            byte[] data = new byte[BUFFER];
 
             int count;
-            while ((count = gis.read(data, 0, 1024)) != -1) {
+            while ((count = gis.read(data, 0, BUFFER)) != -1) {
                 os.write(data, 0, count);
             }
         } catch (IOException var13) {
@@ -318,7 +318,7 @@ public abstract class GZipUtils {
                 entry = (ZipEntry) entries.nextElement();
                 String zipEntryName = entry.getName();
                 outPath = (descDir + File.separator + zipEntryName).replaceAll("\\*", "/");
-                File file = new File(outPath.substring(0, outPath.lastIndexOf(47)));
+                File file = new File(outPath.substring(0, outPath.lastIndexOf('/')));
                 if (!file.exists()) {
                     file.mkdirs();
                 }
@@ -330,7 +330,7 @@ public abstract class GZipUtils {
             try {
                 in = zip.getInputStream(entry);
                 out = new FileOutputStream(outPath);
-                byte[] buf1 = new byte[1024];
+                byte[] buf1 = new byte[BUFFER];
 
                 int len;
                 while ((len = in.read(buf1)) > 0) {
@@ -370,7 +370,7 @@ public abstract class GZipUtils {
         try {
             in = zip.getInputStream(entry);
             buffer = new byte[2097152];
-            byte[] buf = new byte[1024];
+            byte[] buf = new byte[BUFFER];
 
             int len;
             for (int offset = 0; (len = in.read(buf)) >= 0; offset += len) {

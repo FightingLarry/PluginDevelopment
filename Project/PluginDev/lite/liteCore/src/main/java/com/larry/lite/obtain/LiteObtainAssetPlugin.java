@@ -51,18 +51,21 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
                     LiteLog.w("plugin %d path empty or md5 empty", Integer.valueOf(stub.id));
                 } else if (!TextUtils.isEmpty(stub.path) && !TextUtils.isEmpty(stub.md5)) {
 
-                    String assertPath = String.format("%s%s%s", ASSERT_PLUGIN_DIR, File.separator, stub.path);
-                    AssetFileDescriptor assetFileDescriptor =
-                            mContext.getApplicationContext().getAssets().openFd(assertPath);
-                    if (assetFileDescriptor != null && assetFileDescriptor.getLength() == stub.size) {
-                        stub.path = assertPath;
-                        stub.ready = true;
-                    } else {
-                        removes.add(stub);
-                        LiteLog.w("assert plugin id %d : %s", Integer.valueOf(stub.id), assetFileDescriptor != null
-                                ? "file size error: " + assetFileDescriptor.getLength()
-                                : "assert file is not exists");
-                    }
+                    // String assertPath = String.format("%s%s%s", ASSERT_PLUGIN_DIR,
+                    // File.separator, stub.path);
+                    // AssetFileDescriptor assetFileDescriptor =
+                    // mContext.getApplicationContext().getAssets().openFd(assertPath);
+                    // if (assetFileDescriptor != null && assetFileDescriptor.getLength() ==
+                    // stub.size) {
+                    // stub.path = assertPath;
+                    // stub.ready = true;
+                    // } else {
+                    // removes.add(stub);
+                    // LiteLog.w("assert plugin id %d : %s", Integer.valueOf(stub.id),
+                    // assetFileDescriptor != null
+                    // ? "file size error: " + assetFileDescriptor.getLength()
+                    // : "assert file is not exists");
+                    // }
 
                 } else {
                     removes.add(stub);

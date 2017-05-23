@@ -19,6 +19,7 @@
             android:enabled="true"
             android:exported="false"
             android:process=":plugin" />
+        <!--android:process=":plugin"-->
     </application>
 
 

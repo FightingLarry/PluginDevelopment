@@ -36,6 +36,7 @@ public class LiteClassLoader extends ClassLoader {
 
     private void init(Context context, LiteStub stub, ClassLoader parent) throws LiteException {
         this.context = context;
+        this.stub = stub;
         File dir = context.getExternalCacheDir();
         if (dir == null) {
             dir = context.getCacheDir();
@@ -72,7 +73,7 @@ public class LiteClassLoader extends ClassLoader {
             GZipUtils.unZipFiles(file.getAbsolutePath(), outFile.getAbsolutePath());
         } catch (Exception var7) {
             this.printLog(1);
-            throw new LiteException(6, "unzip tdp file exception", var7);
+            throw new LiteException(LitePluginError.PLUGIN_UNZIP_ERROR, "unzip lite file exception", var7);
         }
     }
 
@@ -141,21 +142,21 @@ public class LiteClassLoader extends ClassLoader {
                     case 168:
                         break;
                     default:
-                        throw new LiteException(LitePluginError.MANIFEST_LAUNCH_PARAM_IS_NULL, "launchParam " + modeExtra
-                                + " not match for mode " + manifest.launch);
+                        throw new LiteException(LitePluginError.MANIFEST_LAUNCH_PARAM_IS_NULL,
+                                "launchParam " + modeExtra + " not match for mode " + manifest.launch);
                 }
             } else {
                 if (!manifest.launch.equals(LiteLaunch.KeyEvent.toString())) {
-                    throw new LiteException(LitePluginError.MANIFEST_LAUNCH_MODE_IS_NULL, "Unsupported mode "
-                            + manifest.launch);
+                    throw new LiteException(LitePluginError.MANIFEST_LAUNCH_MODE_IS_NULL,
+                            "Unsupported mode " + manifest.launch);
                 }
 
                 manifest.launchParam = manifest.launchParam.toLowerCase();
                 if (!TextUtils.equals("start", manifest.launchParam)
                         && !TextUtils.equals("background", manifest.launchParam)
                         && !TextUtils.equals("upgrade", manifest.launchParam)) {
-                    throw new LiteException(LitePluginError.MANIFEST_LAUNCH_PARAM_IS_NULL, "launchParam "
-                            + manifest.launchParam + " not match for mode " + manifest.launch);
+                    throw new LiteException(LitePluginError.MANIFEST_LAUNCH_PARAM_IS_NULL,
+                            "launchParam " + manifest.launchParam + " not match for mode " + manifest.launch);
                 }
             }
 
