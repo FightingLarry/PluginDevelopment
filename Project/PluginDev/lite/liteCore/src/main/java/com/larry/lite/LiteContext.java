@@ -15,7 +15,6 @@ public final class LiteContext {
     private LiteConfiguration mConfiguration;
     private LiteConnectionFactory mLiteConnectionFactory;
     private Looper mIoLooper;
-    private ILiteObtainPlugin mCrawler;
     private List<ILiteObtainPlugin> mCrawlerList;
     private String mUserAgent;
     private String mChannel;

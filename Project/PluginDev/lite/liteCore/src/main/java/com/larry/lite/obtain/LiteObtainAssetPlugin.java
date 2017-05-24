@@ -55,20 +55,25 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
                 } else if (!TextUtils.isEmpty(stub.path) && !TextUtils.isEmpty(stub.md5)) {
                     String assertPath = String.format("%s%s%s", ASSERT_PLUGIN_DIR, File.separator, stub.path);
                     // TODO
-                    File file = new File(new URI(String.format("file:///android_asset/%s", assertPath)));
-                    if (file != null && file.length() == stub.size) {
-                        String md5 = MD5Util.getFileMD5(file.getAbsolutePath());
-                        if (!stub.md5.equalsIgnoreCase(md5)) {
-                            removes.add(stub);
-                            LiteLog.w("plugin %d md5(%s) not match, calc md5 is %s",
-                                    new Object[] {Integer.valueOf(stub.id), stub.md5, md5});
-                        } else {
-                            stub.path = file.getAbsolutePath();
+                    InputStream is = null;
+                    try {
+                        is = mContext.getApplicationContext().getAssets().open(assertPath);
+                        if (is != null && stub.size == is.available()) {
+                            stub.path = assertPath;
                             stub.ready = true;
+                        } else {
+                            removes.add(stub);
+                            LiteLog.w("assert plugin id %d : %s", Integer.valueOf(stub.id),
+                                    is != null ? "file size error: " + is.available() : "assert file is not exists");
                         }
+
+                    } catch (Exception e) {
                         removes.add(stub);
-                        LiteLog.w("assert plugin id %d : %s", Integer.valueOf(stub.id),
-                                file != null ? "file size error: " + file.length() : "assert file is not exists");
+                        LiteLog.w("open assert plugin id %d exceptoin!%s", Integer.valueOf(stub.id), e.getMessage());
+                    } finally {
+                        if (is != null) {
+                            is.close();
+                        }
                     }
 
                 } else {
