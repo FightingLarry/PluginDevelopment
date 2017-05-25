@@ -26,4 +26,7 @@ dependencies {
     compile "com.android.support:support-v4:$ANDROID_SUPPORT_VERSION"
     //    compile project(':larry-light')
     compile project(':lite:liteCore')
+
+    compile "com.squareup.okhttp:okhttp:$OKHTTP_VERSION"
+    compile "com.squareup.okhttp:okhttp-urlconnection:$OKHTTP_VERSION"
 }
