@@ -73,14 +73,15 @@ public class LiteClassLoader extends ClassLoader {
             GZipUtils.unZipFiles(file.getAbsolutePath(), outFile.getAbsolutePath());
         } catch (Exception var7) {
             this.printLog(1);
-            throw new LiteException(LitePluginError.PLUGIN_UNZIP_ERROR, "unzip lite file exception", var7);
+            throw new LiteException(LitePluginError.Companion.getPLUGIN_UNZIP_ERROR(), "unzip lite file exception",
+                    var7);
         }
     }
 
     private void parseManifest(File dir, String name) throws LiteException {
         File manifestFile = new File(dir, name + File.separator + JSON_NAME);
         if (!manifestFile.exists()) {
-            throw new LiteException(LitePluginError.MANIFEST_NOT_EXIST, "manifest.json  not exists");
+            throw new LiteException(LitePluginError.Companion.getMANIFEST_NOT_EXIST(), "manifest.json  not exists");
         } else {
             try {
                 String jsonString = FileUtils.readString(manifestFile);
@@ -88,7 +89,8 @@ public class LiteClassLoader extends ClassLoader {
                 this.mManifest = parse(jsonString);
             } catch (Exception var5) {
                 this.printLog(2);
-                throw new LiteException(LitePluginError.MANIFEST_READ_FAIL, "manifest.json  read fail", var5);
+                throw new LiteException(LitePluginError.Companion.getMANIFEST_READ_FAIL(), "manifest.json  read fail",
+                        var5);
             }
         }
     }
@@ -100,7 +102,8 @@ public class LiteClassLoader extends ClassLoader {
             LiteClassLoader.Manifest manifest = parse(jsonString);
             return manifest;
         } catch (Exception var3) {
-            throw new LiteException(LitePluginError.PLUGIN_UNZIP_ERROR, "unzip manifest.json fail", var3);
+            throw new LiteException(LitePluginError.Companion.getPLUGIN_UNZIP_ERROR(), "unzip manifest.json fail",
+                    var3);
         }
     }
 
@@ -109,7 +112,8 @@ public class LiteClassLoader extends ClassLoader {
         try {
             jsonObject = new JSONObject(jsonString);
         } catch (JSONException var3) {
-            throw new LiteException(LitePluginError.MANIFEST_PARSE_JSON_ERROR, "String to JSONObject error", var3);
+            throw new LiteException(LitePluginError.Companion.getMANIFEST_PARSE_JSON_ERROR(),
+                    "String to JSONObject error", var3);
         }
 
         LiteClassLoader.Manifest manifest = new LiteClassLoader.Manifest();
@@ -129,9 +133,9 @@ public class LiteClassLoader extends ClassLoader {
 
     private static void verificationManifest(LiteClassLoader.Manifest manifest) throws LiteException {
         if (StringUtils.isNull(manifest.plugin)) {
-            throw new LiteException(LitePluginError.MANIFEST_PLUGIN_IS_NULL, "manifest plugin is null");
+            throw new LiteException(LitePluginError.Companion.getMANIFEST_PLUGIN_IS_NULL(), "manifest plugin is null");
         } else if (StringUtils.isNull(manifest.launch)) {
-            throw new LiteException(LitePluginError.MANIFEST_LAUNCH_IS_NULL, "manifest launch is null");
+            throw new LiteException(LitePluginError.Companion.getMANIFEST_LAUNCH_IS_NULL(), "manifest launch is null");
         } else {
             if (manifest.launch.equals(LiteLaunch.Periodicity.toString())) {
                 int modeExtra = Integer.parseInt(manifest.launchParam);
@@ -142,12 +146,12 @@ public class LiteClassLoader extends ClassLoader {
                     case 168:
                         break;
                     default:
-                        throw new LiteException(LitePluginError.MANIFEST_LAUNCH_PARAM_IS_NULL,
+                        throw new LiteException(LitePluginError.Companion.getMANIFEST_LAUNCH_PARAM_IS_NULL(),
                                 "launchParam " + modeExtra + " not match for mode " + manifest.launch);
                 }
             } else {
                 if (!manifest.launch.equals(LiteLaunch.KeyEvent.toString())) {
-                    throw new LiteException(LitePluginError.MANIFEST_LAUNCH_MODE_IS_NULL,
+                    throw new LiteException(LitePluginError.Companion.getMANIFEST_LAUNCH_MODE_IS_NULL(),
                             "Unsupported mode " + manifest.launch);
                 }
 
@@ -155,7 +159,7 @@ public class LiteClassLoader extends ClassLoader {
                 if (!TextUtils.equals("start", manifest.launchParam)
                         && !TextUtils.equals("background", manifest.launchParam)
                         && !TextUtils.equals("upgrade", manifest.launchParam)) {
-                    throw new LiteException(LitePluginError.MANIFEST_LAUNCH_PARAM_IS_NULL,
+                    throw new LiteException(LitePluginError.Companion.getMANIFEST_LAUNCH_PARAM_IS_NULL(),
                             "launchParam " + manifest.launchParam + " not match for mode " + manifest.launch);
                 }
             }

@@ -38,9 +38,9 @@ public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
     protected void checkResult(File dir, LiteObtainRemotePlugin.ConfigurationResult cr) throws Exception {
         if (cr == null) {
             throw new NullPointerException("configuration result is null!");
-        } else if (!CollectionUtils.isEmpty(cr.plugins)) {
+        } else if (!CollectionUtils.isEmpty(cr.getPlugins())) {
             ArrayList<LiteStub> removes = new ArrayList();
-            Iterator var4 = cr.plugins.iterator();
+            Iterator var4 = cr.getPlugins().iterator();
 
             while (var4.hasNext()) {
                 LiteStub stub = (LiteStub) var4.next();
@@ -71,7 +71,7 @@ public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
             }
 
             if (removes.size() > 0) {
-                cr.plugins.removeAll(removes);
+                cr.getPlugins().removeAll(removes);
             }
             return;
         }
@@ -109,14 +109,14 @@ public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
                             } else {
                                 JSONObject jsonObject = new JSONObject(s);
                                 final LiteObtainRemotePlugin.ConfigurationResult cr =
-                                        LiteObtainRemotePlugin.parseResult(jsonObject);
+                                        LiteObtainRemotePlugin.Companion.parseResult(jsonObject);
                                 this.checkResult(dir, cr);
                                 TaskManager.runWorkerThread(new Runnable() {
                                     public void run() {
 
                                         LitePluginsConfigInfo litePluginsConfigInfo = new LitePluginsConfigInfo();
-                                        litePluginsConfigInfo.setPlugins(cr.plugins);
-                                        litePluginsConfigInfo.setTs(cr.ts);
+                                        litePluginsConfigInfo.setPlugins(cr.getPlugins());
+                                        litePluginsConfigInfo.setTs(cr.getTs());
                                         litePluginsConfigInfo.setType(LiteConfigType.SDCard);
 
                                         callback.onObtainResult(ILiteObtainPlugin.SUCCESS, litePluginsConfigInfo);

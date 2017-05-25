@@ -86,8 +86,8 @@ public class LiteRuntimeImpl implements LiteRuntime {
     }
 
     private boolean match(LiteEvent event, LiteStub stub, Object extra) {
-        LiteLaunch mode = stub.strategy.mode;
-        int param = stub.strategy.modeExtra;
+        LiteLaunch mode = stub.strategy.getMode();
+        int param = stub.strategy.getModeExtra();
         if (event.equals(LiteEvent.KeyEventImmediate)) {
             if (extra != null && extra instanceof Integer) {
                 int id = ((Integer) extra).intValue();
@@ -97,7 +97,7 @@ public class LiteRuntimeImpl implements LiteRuntime {
             }
         } else if (mode.equals(LiteLaunch.Periodicity)) {
             long last = stub.lastLaunchTime;
-            long expired = last + (long) stub.strategy.modeExtra;
+            long expired = last + (long) stub.strategy.getModeExtra();
             return expired <= System.currentTimeMillis();
         } else {
             return event.equals(LiteEvent.Periodicity)
@@ -224,13 +224,13 @@ public class LiteRuntimeImpl implements LiteRuntime {
         return strategy == null
                 ? false
                 : (network.equals(NetworkStatus.NetworkNotReachable)
-                        ? strategy.networkLimit.equals(LiteNetworkType.ALL)
+                        ? strategy.getNetworkLimit().equals(LiteNetworkType.ALL)
                         : (network.equals(NetworkStatus.NetworkReachableViaWiFi)
-                                ? strategy.networkLimit.compareTo(LiteNetworkType.WWAN) >= 0
+                                ? strategy.getNetworkLimit().compareTo(LiteNetworkType.WWAN) >= 0
                                 : (!network.equals(NetworkStatus.NetworkReachableViaWWAN)
                                         ? false
-                                        : strategy.networkLimit.equals(LiteNetworkType.WWAN)
-                                                || strategy.networkLimit.equals(LiteNetworkType.ALL))));
+                                        : strategy.getNetworkLimit().equals(LiteNetworkType.WWAN)
+                                                || strategy.getNetworkLimit().equals(LiteNetworkType.ALL))));
     }
 
     public void checkPluginsForLaunch(LiteEvent event, Object extra) {

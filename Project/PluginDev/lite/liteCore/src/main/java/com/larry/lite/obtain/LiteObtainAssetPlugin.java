@@ -43,9 +43,9 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
     protected void checkResult(File dir, LiteObtainRemotePlugin.ConfigurationResult cr) throws Exception {
         if (cr == null) {
             throw new NullPointerException("configuration result is null!!");
-        } else if (!CollectionUtils.isEmpty(cr.plugins)) {
+        } else if (!CollectionUtils.isEmpty(cr.getPlugins())) {
             ArrayList<LiteStub> removes = new ArrayList();
-            Iterator iterator = cr.plugins.iterator();
+            Iterator iterator = cr.getPlugins().iterator();
 
             while (iterator.hasNext()) {
                 LiteStub stub = (LiteStub) iterator.next();
@@ -83,7 +83,7 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
             }
 
             if (removes.size() > 0) {
-                cr.plugins.removeAll(removes);
+                cr.getPlugins().removeAll(removes);
             }
             return;
         }
@@ -129,13 +129,13 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
                         } else {
                             JSONObject jsonObject = new JSONObject(content);
                             final LiteObtainRemotePlugin.ConfigurationResult cr =
-                                    LiteObtainRemotePlugin.parseResult(jsonObject);
+                                    LiteObtainRemotePlugin.Companion.parseResult(jsonObject);
                             this.checkResult(null, cr);
                             TaskManager.runWorkerThread(new Runnable() {
                                 public void run() {
                                     LitePluginsConfigInfo litePluginsConfigInfo = new LitePluginsConfigInfo();
-                                    litePluginsConfigInfo.setPlugins(cr.plugins);
-                                    litePluginsConfigInfo.setTs(cr.ts);
+                                    litePluginsConfigInfo.setPlugins(cr.getPlugins());
+                                    litePluginsConfigInfo.setTs(cr.getTs());
                                     litePluginsConfigInfo.setType(LiteConfigType.Assert);
                                     callback.onObtainResult(ILiteObtainPlugin.SUCCESS, litePluginsConfigInfo);
                                 }
