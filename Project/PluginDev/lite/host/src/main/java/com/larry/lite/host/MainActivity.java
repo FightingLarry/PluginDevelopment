@@ -1,14 +1,10 @@
 package com.larry.lite.host;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
-import com.larry.lite.LitePluginService;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,9 +28,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
-                Intent intent = new Intent(LitePluginService.ACTION_CHECK_PLUGIN);
-                intent.setClass(this, LitePluginService.class);
-                startService(intent);
                 break;
             case R.id.btn2:
 

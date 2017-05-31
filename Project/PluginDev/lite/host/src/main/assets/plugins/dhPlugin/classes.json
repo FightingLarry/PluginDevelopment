@@ -1,8 +1,0 @@
-{
-  "plugin": "com.dh.plugin.DhPlugin",
-  "name": "DhPlugin",
-  "launch": "Periodicity",
-  "launchParam": "24",
-  "limit": 0,
-  "network": "WIFI"
-}
