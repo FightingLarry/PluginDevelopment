@@ -2,23 +2,24 @@ package com.larry.lite.host;
 
 import android.content.Context;
 
+import com.larry.lite.network.LiteNetworkHelper;
 import com.larry.lite.network.NetworkSensor;
 
 /**
- * Created by yancai.liu on 2016/12/1.
+ * Created by Larry on 2016/12/1.
  */
 
-public class HostNetWorkSensor implements NetworkSensor, HostNetworkHelper.NetworkInductor {
+public class NetWorkComponent implements NetworkSensor, LiteNetworkHelper.NetworkInductor {
     Callback mCallback;
-    final HostNetworkHelper mHelper;
+    final LiteNetworkHelper mHelper;
 
-    public HostNetWorkSensor() {
-        mHelper = HostNetworkHelper.sharedHelper();
+    public NetWorkComponent() {
+        mHelper = LiteNetworkHelper.sharedHelper();
     }
 
     @Override
     public void register(Context context, Callback callback) {
-        final HostNetworkHelper helper = mHelper;
+        final LiteNetworkHelper helper = mHelper;
         helper.registerNetworkSensor(context);
         mCallback = callback;
         helper.addNetworkInductor(this);
@@ -27,7 +28,7 @@ public class HostNetWorkSensor implements NetworkSensor, HostNetworkHelper.Netwo
     @Override
     public void unregister(Context context) {
         mCallback = null;
-        HostNetworkHelper.sharedHelper().removeNetworkInductor(this);
+        LiteNetworkHelper.sharedHelper().removeNetworkInductor(this);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class HostNetWorkSensor implements NetworkSensor, HostNetworkHelper.Netwo
         return toNetworkStatus(mHelper.getNetworkStatus());
     }
 
-    private NetworkStatus toNetworkStatus(HostNetworkHelper.NetworkStatus status) {
+    private NetworkStatus toNetworkStatus(LiteNetworkHelper.NetworkStatus status) {
         int value = status.ordinal();
         NetworkStatus[] all = NetworkStatus.values();
         if (all.length <= value) throw new IllegalStateException("invalid network status");
@@ -43,7 +44,7 @@ public class HostNetWorkSensor implements NetworkSensor, HostNetworkHelper.Netwo
     }
 
     @Override
-    public void onNetworkChanged(HostNetworkHelper.NetworkStatus status) {
+    public void onNetworkChanged(LiteNetworkHelper.NetworkStatus status) {
         final Callback callback = mCallback;
         if (callback != null) {
             callback.onNetworkChanged(toNetworkStatus(status));

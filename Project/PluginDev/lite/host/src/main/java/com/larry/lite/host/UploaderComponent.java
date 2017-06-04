@@ -5,9 +5,9 @@ import android.util.Log;
 import com.larry.lite.network.NetworkLogger;
 
 
-public class HostUploader implements NetworkLogger.Uploader {
+public class UploaderComponent implements NetworkLogger.Uploader {
     @Override
     public void sendLog(String log, boolean batch) {
-        Log.v("HostUploader", log);
+        Log.v("UploaderComponent", log);
     }
 }

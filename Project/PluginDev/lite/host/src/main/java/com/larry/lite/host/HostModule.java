@@ -11,7 +11,7 @@ import com.larry.lite.LiteService;
 import com.larry.lite.utils.AndroidUtil;
 
 /**
- * Created by yancai.liu on 2016/12/1.
+ * Created by Larry on 2016/12/1.
  */
 
 public class HostModule implements LiteModule {
@@ -19,13 +19,13 @@ public class HostModule implements LiteModule {
     @Override
     public void registerComponents(LiteService liteService) {
         // 注入网络感应器，最好与应用能统一状态
-        liteService.registerComponent("network", new HostNetWorkSensor());
+        liteService.registerComponent("network", new NetWorkComponent());
 
         // 注入日志打印器
-        liteService.registerComponent("logger", new HostLoggerImpl());
+        liteService.registerComponent("logger", new LoggerComponent());
 
         // 注入统计日志上传接口
-        liteService.registerComponent("uploader", new HostUploader());
+        liteService.registerComponent("uploader", new UploaderComponent());
     }
 
     public void applyOptions(LiteService service, LiteContext context) {
