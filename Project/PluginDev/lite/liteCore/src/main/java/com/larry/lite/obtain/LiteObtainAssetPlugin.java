@@ -1,20 +1,17 @@
 package com.larry.lite.obtain;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.text.TextUtils;
 
 import com.larry.lite.ILiteObtainPlugin;
-import com.larry.lite.LiteLog;
-import com.larry.lite.LiteContext;
-import com.larry.lite.LiteStub;
-import com.larry.lite.LitePluginsConfigInfo;
 import com.larry.lite.LiteConfigType;
+import com.larry.lite.LiteContext;
+import com.larry.lite.LiteLog;
+import com.larry.lite.LitePluginsConfigInfo;
+import com.larry.lite.LiteStub;
 import com.larry.lite.utils.CollectionUtils;
 import com.larry.lite.utils.IOUtils;
-import com.larry.lite.utils.MD5Util;
 import com.larry.lite.utils.Streams;
-import com.larry.taskflows.TaskManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +20,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -63,8 +58,9 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
                             stub.ready = true;
                         } else {
                             removes.add(stub);
-                            LiteLog.w("assert plugin id %d : %s", Integer.valueOf(stub.id),
-                                    is != null ? "file size error: " + is.available() : "assert file is not exists");
+                            LiteLog.w("assert plugin id %d : %s", Integer.valueOf(stub.id), is != null
+                                    ? "file size error: " + is.available()
+                                    : "assert file is not exists");
                         }
 
                     } catch (Exception e) {
@@ -120,9 +116,10 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
                             Streams.safeClose(is);
                         }
 
-                        String content = contentBytes != null && contentBytes.length != 0
-                                ? new String(contentBytes, "utf-8")
-                                : null;
+                        String content =
+                                contentBytes != null && contentBytes.length != 0
+                                        ? new String(contentBytes, "utf-8")
+                                        : null;
                         if (TextUtils.isEmpty(content)) {
                             LiteLog.w("manifest file %s content empty.", new Object[] {CONFIG_MANIFEST_FILE});
                             return ILiteObtainPlugin.FAIL_IO;
@@ -131,7 +128,8 @@ public class LiteObtainAssetPlugin extends LiteObtainSdCardPlugin {
                             final LiteObtainRemotePlugin.ConfigurationResult cr =
                                     LiteObtainRemotePlugin.parseResult(jsonObject);
                             this.checkResult(null, cr);
-                            TaskManager.runWorkerThread(new Runnable() {
+
+                            mHandler.post(new Runnable() {
                                 public void run() {
                                     LitePluginsConfigInfo litePluginsConfigInfo = new LitePluginsConfigInfo();
                                     litePluginsConfigInfo.setPlugins(cr.plugins);

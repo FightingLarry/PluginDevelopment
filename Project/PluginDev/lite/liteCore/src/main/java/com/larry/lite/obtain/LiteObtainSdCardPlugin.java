@@ -1,19 +1,19 @@
 package com.larry.lite.obtain;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import com.larry.lite.ILiteObtainPlugin;
-import com.larry.lite.LiteLog;
-import com.larry.lite.LiteContext;
-import com.larry.lite.LiteStub;
-import com.larry.lite.LitePluginsConfigInfo;
 import com.larry.lite.LiteConfigType;
+import com.larry.lite.LiteContext;
+import com.larry.lite.LiteLog;
+import com.larry.lite.LitePluginsConfigInfo;
+import com.larry.lite.LiteStub;
 import com.larry.lite.utils.CollectionUtils;
-import com.larry.lite.utils.MD5Util;
-import com.larry.taskflows.TaskManager;
 import com.larry.lite.utils.FileUtils;
+import com.larry.lite.utils.MD5Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,8 +31,11 @@ public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
     public static final int LOCAL_PLUGIN_ID_BASE = 200000;
     final LiteContext mContext;
 
+    protected Handler mHandler;
+
     public LiteObtainSdCardPlugin(LiteContext context) {
         this.mContext = context;
+        this.mHandler = new Handler(context.getIoLooper());
     }
 
     protected void checkResult(File dir, LiteObtainRemotePlugin.ConfigurationResult cr) throws Exception {
@@ -61,8 +64,8 @@ public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
                         }
                     } else {
                         removes.add(stub);
-                        LiteLog.w("plugin id %d : %s", Integer.valueOf(stub.id),
-                                file.exists() ? "file size error: " + file.length() : "file is not exists");
+                        LiteLog.w("plugin id %d : %s", Integer.valueOf(stub.id), file.exists() ? "file size error: "
+                                + file.length() : "file is not exists");
                     }
                 } else {
                     removes.add(stub);
@@ -111,7 +114,7 @@ public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
                                 final LiteObtainRemotePlugin.ConfigurationResult cr =
                                         LiteObtainRemotePlugin.parseResult(jsonObject);
                                 this.checkResult(dir, cr);
-                                TaskManager.runWorkerThread(new Runnable() {
+                                mHandler.post(new Runnable() {
                                     public void run() {
 
                                         LitePluginsConfigInfo litePluginsConfigInfo = new LitePluginsConfigInfo();
