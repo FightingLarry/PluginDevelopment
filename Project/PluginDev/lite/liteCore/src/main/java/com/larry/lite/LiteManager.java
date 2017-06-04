@@ -85,7 +85,7 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
             } else {
                 this.mInited = true;
                 Runnable newAction = new LiteManager.EventAction(this, event);
-                Message msg = this.mIoHandler.obtainMessage(1, newAction);
+                Message msg = this.mIoHandler.obtainMessage(MSG_UPDATE_CONFIGURATION, newAction);
                 this.mIoHandler.sendMessage(msg);
                 this.mNetworkInductor = new LiteManager.NetworkChangedDuctor(this);
                 NetworkHelper.sharedHelper().addNetworkInductor(this.mNetworkInductor);
@@ -96,7 +96,7 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
     public void destroy() {
         if (this.mInited) {
             NetworkHelper.sharedHelper().removeNetworkInductor(this.mNetworkInductor);
-            this.mIoHandler.removeMessages(1);
+            this.mIoHandler.removeMessages(MSG_UPDATE_CONFIGURATION);
             this.mIoHandler.removeMessages(2);
             this.mCrawler.cancel();
             this.mRuntime.destroy();
@@ -172,7 +172,7 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
             LiteLog.w("engine already updating configuration", new Object[0]);
             return 1;
         } else if (!this.isCurrentIoThread()) {
-            Message msg = this.mIoHandler.obtainMessage(1, ignoreExpired ? 1 : 0, 0);
+            Message msg = this.mIoHandler.obtainMessage(MSG_UPDATE_CONFIGURATION, ignoreExpired ? 1 : 0, 0);
             msg.sendToTarget();
             return 3;
         } else if (!ignoreExpired && !this.configExpired()) {
@@ -216,7 +216,7 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
                 if (this.mRetryTimesForFailed >= 3) {
                     LiteLog.w("retry too many times: %d", new Object[] {Integer.valueOf(this.mRetryTimesForFailed)});
                 } else {
-                    Message msg = this.mIoHandler.obtainMessage(1, this.mPendingAction);
+                    Message msg = this.mIoHandler.obtainMessage(MSG_UPDATE_CONFIGURATION, this.mPendingAction);
                     this.mIoHandler.sendMessageDelayed(msg, (long) ('\uea60' << this.mRetryTimesForFailed - 1));
                 }
             }
@@ -246,7 +246,7 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
 
             this.mRetryTimesForFailed = 0;
             Runnable newAction = new LiteManager.EventAction(this, LiteEvent.Periodicity);
-            Message msg = this.mIoHandler.obtainMessage(1, newAction);
+            Message msg = this.mIoHandler.obtainMessage(MSG_UPDATE_CONFIGURATION, newAction);
             this.mIoHandler.sendMessageDelayed(msg, 3600000L);
         }
     }
