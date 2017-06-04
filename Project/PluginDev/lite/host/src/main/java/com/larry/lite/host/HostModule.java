@@ -30,9 +30,7 @@ public class HostModule implements LiteModule {
 
     public void applyOptions(LiteService service, LiteContext context) {
 
-        String url = BuildConfig.DEBUG
-                ? "http://tracker-test.tclclouds.com/tracker-api/plugins-info"
-                : "http://tracker-global.tclclouds.com/tracker-api/plugins-info";
+        String url = "http://www.iamlarry.com/plugins-info";
 
         context.setLocalDebug(BuildConfig.DEBUG);
 
