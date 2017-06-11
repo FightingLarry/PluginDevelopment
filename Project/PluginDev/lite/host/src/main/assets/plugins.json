@@ -1,26 +1,15 @@
 {
-  "plugins": [
+  "plugins": [//json数组，可以配置多个轻应用
     {
-      "id": "300001",
-      "url": "",
-      "size": 1376,
-      "md5": "a331986fd4cabc3859f5bbdb91684c3c",
-      "launch": "Periodicity",
-      "launchParam": "1",
-      "limit": 0,
-      "network": "WIFI",
-      "path": "myplugin.lite"
-    },
-    {
-      "id": "300002",
-      "url": "",
-      "size": 1376,
-      "md5": "a331986fd4cabc3859f5bbdb91684c3c",
+      "id": "300002",//插件id，不能低于200000
+      "url": "",//本地运行不填写，用于网络轻应用，下载.lite的网络路径
+      "size": 1376,//.lite 文件的大小
+      "md5": "a331986fd4cabc3859f5bbdb91684c3c",//.lite 文件的md5
       "launch": "KeyEvent",
       "launchParam": "start",
       "limit": 0,
       "network": "WIFI",
-      "path": "myplugin2.lite"
+      "path": "myplugin2.lite"//本地轻应用的相对路径，用于本地运行
     }
   ],
   "ts": 1461034874609

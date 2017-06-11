@@ -204,7 +204,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
 
     private void enqueue(LiteEntity entity) {
         if (!this.isCurrentIoThread()) {
-            Message msg = this.mIoHandler.obtainMessage(2, entity);
+            Message msg = this.mIoHandler.obtainMessage(MSG_QUEUE_SINGLE, entity);
             msg.sendToTarget();
         } else if (!entity.ready && !StringUtils.isNull(entity.url) && !StringUtils.isNull(entity.md5)) {
             DownloadTask task = this.mRunningTask;
@@ -220,7 +220,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
 
     private void enqueue(List<LiteEntity> tasks) {
         if (!this.isCurrentIoThread()) {
-            Message msg = this.mIoHandler.obtainMessage(1, tasks);
+            Message msg = this.mIoHandler.obtainMessage(MSG_QUEUE, tasks);
             msg.sendToTarget();
         } else {
             boolean running = false;
@@ -295,7 +295,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
 
             this.postSchedule();
         } else {
-            Message msg = this.mIoHandler.obtainMessage(5, entity);
+            Message msg = this.mIoHandler.obtainMessage(MSG_ERROR, entity);
             msg.sendToTarget();
         }
 
@@ -306,7 +306,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
             LiteLog.d("progress %d", new Object[] {Integer.valueOf(progress)});
             this.mDao.saveOrUpdate(entity);
         } else {
-            Message msg = this.mIoHandler.obtainMessage(6, entity);
+            Message msg = this.mIoHandler.obtainMessage(MSG_PROGRESS, entity);
             msg.arg1 = progress;
             msg.sendToTarget();
         }
@@ -342,7 +342,7 @@ public class LitePluginManagerImpl implements LitePluginManager {
                 }
             }
         } else {
-            Message msg = this.mIoHandler.obtainMessage(4, entity);
+            Message msg = this.mIoHandler.obtainMessage(MSG_COMPLETE, entity);
             msg.arg1 = cause;
             msg.sendToTarget();
         }
@@ -354,8 +354,8 @@ public class LitePluginManagerImpl implements LitePluginManager {
     }
 
     private void postSchedule() {
-        this.mIoHandler.removeMessages(3);
-        this.mIoHandler.sendEmptyMessageDelayed(3, 100L);
+        this.mIoHandler.removeMessages(MSG_SCHEDULE);
+        this.mIoHandler.sendEmptyMessageDelayed(MSG_SCHEDULE, 100L);
     }
 
     private void schedule() {
@@ -406,23 +406,23 @@ public class LitePluginManagerImpl implements LitePluginManager {
             if (impl != null) {
                 LiteEntity entity;
                 switch (msg.what) {
-                    case 1:
+                    case MSG_QUEUE:
                         List<LiteEntity> plugins = (List) msg.obj;
                         impl.enqueue(plugins);
                         break;
-                    case 2:
+                    case MSG_QUEUE_SINGLE:
                         entity = (LiteEntity) msg.obj;
                         impl.enqueue(entity);
                         break;
-                    case 3:
-                        this.removeMessages(3);
+                    case MSG_SCHEDULE:
+                        this.removeMessages(MSG_SCHEDULE);
                         impl.schedule();
                         break;
-                    case 4:
+                    case MSG_COMPLETE:
                         entity = (LiteEntity) msg.obj;
                         impl.onComplete(msg.arg1, entity);
                         break;
-                    case 5:
+                    case MSG_ERROR:
                         entity = (LiteEntity) msg.obj;
                         impl.onError(msg.arg1, entity);
                         break;

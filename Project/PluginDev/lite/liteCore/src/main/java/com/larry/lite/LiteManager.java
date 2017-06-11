@@ -97,7 +97,7 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
         if (this.mInited) {
             NetworkHelper.sharedHelper().removeNetworkInductor(this.mNetworkInductor);
             this.mIoHandler.removeMessages(MSG_UPDATE_CONFIGURATION);
-            this.mIoHandler.removeMessages(2);
+            this.mIoHandler.removeMessages(MSG_PERF_SNAPSHOT);
             this.mCrawler.cancel();
             this.mRuntime.destroy();
             this.mManager.destroy();
@@ -110,19 +110,19 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
 
     public void onPluginStart(LiteStub plugin) {
         LiteLog.v("%s onPluginStart", new Object[] {"LiteManager"});
-        Message msg = this.mIoHandler.obtainMessage(2, 1, 0, plugin);
+        Message msg = this.mIoHandler.obtainMessage(MSG_PERF_SNAPSHOT, 1, 0, plugin);
         msg.sendToTarget();
     }
 
     public void onPluginEnd(LiteStub plugin, int err, Object extra) {
         LiteLog.v("%s onPluginEnd err:%d", new Object[] {"LiteManager", Integer.valueOf(err)});
-        Message msg = this.mIoHandler.obtainMessage(2, 2, err, plugin);
+        Message msg = this.mIoHandler.obtainMessage(MSG_PERF_SNAPSHOT, 2, err, plugin);
         msg.sendToTarget();
     }
 
     public void onPluginDestroy(LiteStub plugin) {
         LiteLog.v("%s onPluginDestroy", new Object[] {"LiteManager"});
-        Message msg = this.mIoHandler.obtainMessage(2, 3, 0, plugin);
+        Message msg = this.mIoHandler.obtainMessage(MSG_PERF_SNAPSHOT, 3, 0, plugin);
         msg.sendToTarget();
     }
 
@@ -154,7 +154,7 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
         this.mStats.state = state;
         plugin.lastLaunchTime = System.currentTimeMillis();
         this.mManager.savePlugin(plugin);
-        Message msg = this.mIoHandler.obtainMessage(3, plugin);
+        Message msg = this.mIoHandler.obtainMessage(MSG_PREF_REPORT, plugin);
         msg.sendToTarget();
     }
 
@@ -375,7 +375,7 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
                     this.sendMessageDelayed(newmsg, (long) ('\uea60' << LiteManager.this.mRetryTimesForFailed - 1));
                 }
             } else if (msg.what == MSG_PERF_SNAPSHOT) {
-                this.removeMessages(2);
+                this.removeMessages(MSG_PERF_SNAPSHOT);
                 if (msg.arg1 == 1) {
                     LiteManager.this.mStats.start();
                     LiteManager.this.mContinueStating = true;
@@ -390,7 +390,7 @@ public class LiteManager implements ILiteLifecycleCallback, Callback {
                 }
 
                 if (LiteManager.this.mContinueStating) {
-                    this.sendEmptyMessageDelayed(2, 200L);
+                    this.sendEmptyMessageDelayed(MSG_PERF_SNAPSHOT, 200L);
                 }
             } else if (msg.what == MSG_PREF_REPORT) {
                 LiteStub stub = (LiteStub) msg.obj;

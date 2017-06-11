@@ -1,8 +1,9 @@
 {
-  "plugin": "com.larry.lite.plugin.MyPlugin",
-  "name": "MyPlugin",
-  "launch": "Periodicity",
-  "launchParam": "24",
-  "limit": 0,
-  "network": "WIFI"
+  "plugin": "com.larry.lite.plugin.MyPlugin",//轻应用启动类，必填
+  "name": "MyPlugin",//插件名称，可选
+  "launch": "Periodicity",//启动轻应用的方式，必填。Periodicity 或者 KeyEvent
+  "launchParam": "24",//启动方式参数，必填。
+  //Periodicity：参数值： 1， 12， 24， 148；KeyEvent:start,background,upgrade
+  "limit": 0,//定量限制，可选。目前统一为无限制。暂不支持大于0的值
+  "network": "WIFI"//执行轻应用的网络配置，可选。WIFI（默认），WAN"，ALL。
 }

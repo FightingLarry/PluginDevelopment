@@ -35,7 +35,7 @@ import java.util.Map;
 public class LiteService extends GrayService {
     private static final int ALARM_INTERVAL = 300000;
     private static final int WAKE_REQUEST_CODE = 6666;
-    private static final String LAST_VERSION_CODE = "dc_last_version_code";
+    private static final String LAST_VERSION_CODE = "last_version_code";
 
     HandlerThread mIoThread;
     Handler mIoHandler;
@@ -173,9 +173,10 @@ public class LiteService extends GrayService {
         this.mAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(this, LiteService.class);
         alarmIntent.setAction(LiteEvent.Periodicity.toString());
-        PendingIntent operation = PendingIntent.getService(this, 6666, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent operation =
+                PendingIntent.getService(this, WAKE_REQUEST_CODE, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         this.mAlarmOperation = operation;
-        this.mAlarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), 900000L, operation);
+        this.mAlarmManager.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(), ALARM_INTERVAL, operation);
 
         this.isFirst = true;
         IntentFilter filter = new IntentFilter();

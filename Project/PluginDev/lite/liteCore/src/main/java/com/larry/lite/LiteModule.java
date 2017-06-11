@@ -2,7 +2,18 @@
 package com.larry.lite;
 
 public interface LiteModule {
-    void applyOptions(LiteService var1, LiteContext var2);
+    /**
+     * 注册组件
+     * @param service
+     */
+    void registerComponents(LiteService service);
 
-    void registerComponents(LiteService var1);
+    /**
+     * 远程轻应用的配置
+     * @param service
+     * @param liteContext
+     */
+    void applyOptions(LiteService service, LiteContext liteContext);
+
+
 }

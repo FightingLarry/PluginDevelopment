@@ -86,9 +86,11 @@ public class LiteRuntimeImpl implements LiteRuntime {
     }
 
     private boolean match(LiteEvent event, LiteStub stub, Object extra) {
+        //启动模式
         LiteLaunch mode = stub.strategy.mode;
         int param = stub.strategy.modeExtra;
         if (event.equals(LiteEvent.KeyEventImmediate)) {
+            //立即
             if (extra != null && extra instanceof Integer) {
                 int id = ((Integer) extra).intValue();
                 return id == -1 || stub.id == id;
@@ -96,6 +98,7 @@ public class LiteRuntimeImpl implements LiteRuntime {
                 return false;
             }
         } else if (mode.equals(LiteLaunch.Periodicity)) {
+            //周期性
             long last = stub.lastLaunchTime;
             long expired = last + (long) stub.strategy.modeExtra;
             return expired <= System.currentTimeMillis();
@@ -112,23 +115,24 @@ public class LiteRuntimeImpl implements LiteRuntime {
         return Thread.currentThread() == this.mIoHandler.getLooper().getThread();
     }
 
-    void enqueue(List<LiteStub> executes) {
+    void enqueue(List<LiteStub> liteStubs) {
+        //顺序执行LiteStub
         if (!this.isCurrentIoThread()) {
-            Message msg = this.mIoHandler.obtainMessage(1, executes);
+            Message msg = this.mIoHandler.obtainMessage(1, liteStubs);
             msg.sendToTarget();
         } else {
             boolean running = false;
             LiteStubManager task = this.mRunningPlugin;
             if (task != null) {
-                executes.remove(task.getStub());
+                liteStubs.remove(task.getStub());
                 running = true;
             }
 
-            if (!CollectionUtils.isEmpty(executes)) {
-                Iterator var4 = executes.iterator();
+            if (!CollectionUtils.isEmpty(liteStubs)) {
+                Iterator liteStubIterator = liteStubs.iterator();
 
-                while (var4.hasNext()) {
-                    LiteStub ps = (LiteStub) var4.next();
+                while (liteStubIterator.hasNext()) {
+                    LiteStub ps = (LiteStub) liteStubIterator.next();
                     this.mWaitingQueue.put(ps.id, ps);
                 }
 
@@ -147,8 +151,8 @@ public class LiteRuntimeImpl implements LiteRuntime {
 
     private void postSchedule() {
         if (this.mAllowSchedule) {
-            this.mIoHandler.removeMessages(2);
-            this.mIoHandler.sendEmptyMessageDelayed(2, 100L);
+            this.mIoHandler.removeMessages(MSG_SCHEDULE);
+            this.mIoHandler.sendEmptyMessageDelayed(MSG_SCHEDULE, 100L);
         }
     }
 
@@ -239,10 +243,11 @@ public class LiteRuntimeImpl implements LiteRuntime {
             ArrayList<LiteStub> plugins = new ArrayList(configuration.getPlugins());
             ArrayList<LiteStub> executes = new ArrayList(plugins.size());
             NetworkStatus network = NetworkHelper.sharedHelper().getNetworkStatus();
-            Iterator var7 = plugins.iterator();
+            Iterator liteStubIterator = plugins.iterator();
 
-            while (var7.hasNext()) {
-                LiteStub ps = (LiteStub) var7.next();
+            while (liteStubIterator.hasNext()) {
+                LiteStub ps = (LiteStub) liteStubIterator.next();
+                //检测参数是否满足条件 && LiteStrategy是否为空和network的状态
                 if (this.match(event, ps, extra) && accept(ps.strategy, network)) {
                     executes.add(ps);
                 }
@@ -290,17 +295,17 @@ public class LiteRuntimeImpl implements LiteRuntime {
             LiteRuntimeImpl impl = (LiteRuntimeImpl) this.mRef.get();
             if (impl != null) {
                 switch (msg.what) {
-                    case 1:
+                    case MSG_QUEUE:
                         List<LiteStub> plugins = (List) msg.obj;
                         impl.enqueue(plugins);
                         break;
-                    case 2:
-                        this.removeMessages(2);
+                    case MSG_SCHEDULE:
+                        this.removeMessages(MSG_SCHEDULE);
                         if (impl.mAllowSchedule) {
                             impl.schedule();
                         }
                         break;
-                    case 3:
+                    case MSG_COMPLETE:
                         LiteStub stub = (LiteStub) msg.obj;
                         impl.onComplete(stub, msg.arg1, msg.arg2);
                 }
