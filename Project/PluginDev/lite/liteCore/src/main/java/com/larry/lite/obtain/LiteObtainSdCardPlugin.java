@@ -56,16 +56,19 @@ public class LiteObtainSdCardPlugin implements ILiteObtainPlugin {
                         String md5 = MD5Util.getFileMD5(file.getAbsolutePath());
                         if (!stub.md5.equalsIgnoreCase(md5)) {
                             removes.add(stub);
-                            LiteLog.w("plugin %d md5(%s) not match, calc md5 is %s",
-                                    new Object[] {Integer.valueOf(stub.id), stub.md5, md5});
+                            LiteLog.w("plugin %d md5 not match, calc md5 is %s", stub.id, md5);
                         } else {
                             stub.path = file.getAbsolutePath();
                             stub.ready = true;
                         }
                     } else {
                         removes.add(stub);
-                        LiteLog.w("plugin id %d : %s", Integer.valueOf(stub.id), file.exists() ? "file size error: "
-                                + file.length() : "file is not exists");
+                        if (!file.exists()) {
+                            LiteLog.w("plugin id %d is not exists", stub.id);
+                        } else {
+                            LiteLog.w("plugin id %d :size=%s,md5=%s", stub.id, file.length(),
+                                    MD5Util.getFileMD5(file.getAbsolutePath()));
+                        }
                     }
                 } else {
                     removes.add(stub);

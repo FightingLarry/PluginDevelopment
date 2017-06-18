@@ -25,6 +25,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     provided "com.android.support:support-v4:$ANDROID_SUPPORT_VERSION"
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
+    provided 'com.squareup.okhttp:okhttp:2.7.5'
+    provided 'com.squareup.okhttp:okhttp-urlconnection:2.7.5'
 }

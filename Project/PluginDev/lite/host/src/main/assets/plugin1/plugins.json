@@ -1,0 +1,16 @@
+{
+  "plugins": [
+    {
+      "id": "500003",
+      "url": "",
+      "size": 2419,
+      "md5": "e37137515ccd9f13b727a3bd0b58a8b4",
+      "launch": "KeyEvent",
+      "launchParam": "start",
+      "limit": 0,
+      "network": "WIFI",
+      "path": "plugin1.lite"
+    }
+  ],
+  "ts": 1461034874609
+}

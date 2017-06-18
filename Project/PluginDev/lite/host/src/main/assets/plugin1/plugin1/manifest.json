@@ -1,0 +1,8 @@
+{
+  "plugin": "com.larry.lite.plugin1.MainPlugin",
+  "name": "MainPlugin",
+  "launch": "Periodicity",
+  "launchParam": "24",
+  "limit": 0,
+  "network": "WIFI"
+}

@@ -155,7 +155,7 @@ public class LiteService extends GrayService {
 
         // if (context.isLocalDebug()) {
 
-        context.addConfigurationCrawler(new LiteObtainAssetPlugin(context));
+        // context.addConfigurationCrawler(new LiteObtainAssetPlugin(context));
 
         context.addConfigurationCrawler(new LiteObtainSdCardPlugin(context));
         // } else {
